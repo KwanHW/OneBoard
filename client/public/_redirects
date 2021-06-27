@@ -1,2 +1,2 @@
-/api/* https://oneboard-sg.herokuapp.com/api/:splat 
+/api/* https://oneboard-sg.herokuapp.com/api/:splat 200
 /* /index.html
