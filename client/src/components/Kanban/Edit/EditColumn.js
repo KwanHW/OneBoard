@@ -2,11 +2,11 @@ import React, { useContext, useState, useRef } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
-import DeleteModal from './KanbanUI/DeleteModal';
+import DeleteModal from '../Delete/DeleteModal';
 import styles from './EditColumn.module.css';
-import { updateData } from '../../store/kanban-actions';
-import ModalContext from '../../store/ModalContext';
-import { TYPES } from '../../store/kanban-actions';
+import { updateData } from '../../../store/kanban-actions';
+import ModalContext from '../../../store/ModalContext';
+import { TYPES } from '../../../store/kanban-actions';
 
 function EditColumn(props) {
 	const { title, column, onCancel } = props;

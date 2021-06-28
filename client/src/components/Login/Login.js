@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
 	Alert,
 	Form,
@@ -7,6 +7,9 @@ import {
 	Label,
 	Input,
 	Button,
+	Modal,
+	ModalBody,
+	ModalFooter,
 } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -17,8 +20,11 @@ import useError from '../hooks/use-error';
 import { fetchUserData, login } from '../../store/user-actions';
 import AuthContext from '../../store/AuthContext';
 import { isEmail, textNotEmpty } from '../../lib/validators';
+import { ModalHeader } from 'reactstrap';
 
 export default function Login(props) {
+	// Used for announcement only
+	const [open, setOpen] = useState(true);
 	const dispatch = useDispatch();
 	const authContext = useContext(AuthContext);
 
@@ -70,6 +76,13 @@ export default function Login(props) {
 
 	return (
 		<LoginPage title="Log In">
+			{open && (
+				<Announcement
+					toggle={() => {
+						setOpen(false);
+					}}
+				/>
+			)}
 			<Alert
 				color="danger"
 				className="w-25"
@@ -124,3 +137,28 @@ export default function Login(props) {
 		</LoginPage>
 	);
 }
+
+const Announcement = (props) => {
+	const { toggle } = props;
+	return (
+		<Modal isOpen={true} toggle={toggle}>
+			<ModalHeader>A message from us</ModalHeader>
+			<ModalBody>
+				<p>Hey there! Thank you for trying out OneBoard!</p>
+				<br />
+				<p>
+					We hope to receive any feedback you may have to improve
+					OneBoard. As the application is deployed on free servers,
+					the application may feel slow and unresponsive.
+				</p>
+				<br />
+				<p>- Kwan Hao Wei & Goh Zheng Teck</p>
+			</ModalBody>
+			<ModalFooter>
+				<Button color="primary" onClick={toggle}>
+					Close
+				</Button>
+			</ModalFooter>
+		</Modal>
+	);
+};

@@ -11,7 +11,10 @@ const EditNote = (props) => {
 
 	const cancelHandler = (e) => {
 		const newData = e.target.value;
-		if (newData === (isTitle ? note.name : note.description)) {
+		if (
+			newData === (isTitle ? note.name : note.description) ||
+			newData === ''
+		) {
 			onCancel();
 			return;
 		}

@@ -7,7 +7,7 @@ import useInput from '../../hooks/use-input';
 import { userActions } from '../../../store/user';
 import { addData, TYPES } from '../../../store/kanban-actions';
 import ModalContext from '../../../store/ModalContext';
-import DeleteModal from '../KanbanUI/DeleteModal';
+import DeleteModal from '../Delete/DeleteModal';
 import EditBoard from '../Edit/EditBoard';
 import styles from './AddBoard.module.css';
 

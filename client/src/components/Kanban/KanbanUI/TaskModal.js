@@ -17,7 +17,7 @@ import {
 import styles from './TaskModal.module.css';
 import { TYPES, updateData } from '../../../store/kanban-actions';
 import ModalContext from '../../../store/ModalContext';
-import { AddSubtask, SubtaskList } from './Subtask';
+import { AddSubtask, SubtaskList } from '../Subtask';
 import useError from '../../hooks/use-error';
 
 const { Option } = Select;
@@ -59,8 +59,10 @@ function TaskModal(props) {
 			// console.log('Deadline is a time, checking against old value');
 			dateChanged = !deadline.isSame(beforeChange.expireAt, 'day');
 		}
+
 		if (dateChanged) {
-			newExpiry = deadline.toDate().toISOString();
+			if (deadline) newExpiry = deadline.toDate().toISOString();
+			else newExpiry = '';
 		} else {
 			if (beforeChange.expireAt === '') newExpiry = '';
 			else newExpiry = new Date(beforeChange.expireAt).toISOString();
@@ -227,7 +229,7 @@ function TaskModal(props) {
 					color={error ? 'success' : 'danger'}
 					isOpen={!!errorMsg}
 					toggle={() => {
-						changeError(!error);
+						changeMessage('');
 					}}
 				>
 					{errorMsg}

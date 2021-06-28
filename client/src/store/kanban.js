@@ -36,22 +36,18 @@ const kanbanSlice = createSlice({
 			column.tasks.push(newTask);
 		},
 		updateTask(state, action) {
-			// TODO Add expireAt and label
 			const newTask = createTask(action.payload);
 			const { _id } = newTask;
 
-			console.log(newTask);
 			const taskInCol = state.columns.find((col) =>
 				col.tasks.find((task) => task._id === _id)
 			);
 
-			console.log(taskInCol);
 			const newTasks = taskInCol.tasks.map((task) =>
 				task._id === _id ? newTask : task
 			);
 
 			const newCol = { ...taskInCol, tasks: newTasks };
-			console.log(newCol);
 			state.columns = state.columns.map((col) =>
 				col._id === newCol._id ? newCol : col
 			);

@@ -1,7 +1,7 @@
 import React from 'react';
 // import styles from './Input.module.css';
 
-export default function Input(props) {
+function Input(props) {
 	return (
 		<div className={`${props.className}`}>
 			<label htmlFor={props.id}>{props.label}</label>
@@ -15,3 +15,5 @@ export default function Input(props) {
 		</div>
 	);
 }
+
+// export default Input

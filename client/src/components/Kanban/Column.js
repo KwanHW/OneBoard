@@ -4,8 +4,8 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { Card, CardHeader, CardFooter } from 'reactstrap';
 import Task from './Task';
 import AddTask from './Add/AddTask';
+import EditColumn from './Edit/EditColumn';
 import styles from './Column.module.css';
-import EditColumn from './EditColumn';
 
 function Column(props) {
 	const { boardId, column, index: colIndex } = props;

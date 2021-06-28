@@ -57,3 +57,7 @@ export function durationIsSame(currentDuration, durationToCompare) {
 		})
 		.some((isSame) => isSame);
 }
+
+export function sameDateTime(dateA, dateB) {
+	return moment(dateA).isSame(dateB);
+}

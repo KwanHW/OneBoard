@@ -1,7 +1,7 @@
 import React from 'react';
 // import { useDispatch } from 'react-redux';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
-import useInput from '../../../hooks/use-input';
+import useInput from '../../hooks/use-input';
 
 function AddSubtask(props) {
 	const { addSubtask } = props;

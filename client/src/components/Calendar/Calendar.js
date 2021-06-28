@@ -7,7 +7,7 @@ import EventModal from './EventModal';
 import { eventActions } from '../../store/event';
 import { fetchEvents, updateEvent } from '../../store/event-actions';
 import ModalContext from '../../store/ModalContext';
-import { convertToDate, durationIsSame } from '../../lib/event';
+import { convertToDate, sameDateTime } from '../../lib/event';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -32,14 +32,14 @@ function Calendar() {
 			const parsedEvents = JSON.parse(stringEvents);
 			// * This is causing events to collapse on its own
 			if (parsedEvents) {
-				console.log(parsedEvents);
+				// console.log(parsedEvents);
 				if (parsedEvents.length !== 0) {
-					console.log('Mount from storage');
+					// console.log('Mount from storage');
 					dispatch(eventActions.replace(parsedEvents));
 					return;
 				}
 			}
-			console.log('Fetch events from server');
+			// console.log('Fetch events from server');
 			const start = moment().startOf('month').toDate();
 			const end = moment().endOf('month').toDate();
 			dispatch(fetchEvents(token, start, end));
@@ -52,10 +52,8 @@ function Calendar() {
 
 	const eventDropHandler = (data) => {
 		if (
-			durationIsSame(
-				{ start: data.event.start, end: data.event.end },
-				{ start: data.start, end: data.end }
-			)
+			sameDateTime(data.event.start, data.start) &&
+			sameDateTime(data.event.end, data.end)
 		) {
 			return;
 		}
@@ -65,6 +63,7 @@ function Calendar() {
 			start: data.start.toISOString(),
 			end: data.end.toISOString(),
 		};
+		// console.log(newEvent);
 		dispatch(updateEvent(token, newEvent));
 	};
 

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Badge } from 'reactstrap';
 import { BiTime } from 'react-icons/bi';
 import { Draggable } from 'react-beautiful-dnd';
-import DeleteModal from './KanbanUI/DeleteModal';
+import DeleteModal from './Delete/DeleteModal';
 import EditDelete from './KanbanUI/EditDelete';
 import TaskModal from './KanbanUI/TaskModal';
 import styles from './Task.module.css';

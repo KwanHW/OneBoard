@@ -102,7 +102,7 @@ const FilteredTable = (props) => {
 		<tr
 			// Change to anon arrow function
 			onClick={() => {
-				props.goTo(index);
+				props.goTo(note._id);
 			}}
 			key={note._id}
 			style={{ cursor: 'pointer' }}
