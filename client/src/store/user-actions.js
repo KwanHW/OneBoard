@@ -12,7 +12,7 @@ export const login = (userData) => {
 			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message);
+				throw new Error('Invalid email or password.');
 			}
 
 			return data;
