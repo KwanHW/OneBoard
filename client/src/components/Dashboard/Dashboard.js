@@ -1,10 +1,10 @@
 import React from 'react';
-import { Card, CardTitle as h3 } from 'reactstrap';
+import { Card } from 'reactstrap';
 import Board from '../Kanban/Board';
 import Notes from '../Notes/Notes';
 import Calendar from '../Calendar/Calendar';
 import Countdown from './Countdown/Countdown';
-import styles from './Dashboard.module.css';
+// import styles from './Dashboard.module.css';
 
 function Dashboard(props) {
 	return (

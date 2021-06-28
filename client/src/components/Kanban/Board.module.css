@@ -1,5 +1,5 @@
 .kanban {
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 
 .cols {
