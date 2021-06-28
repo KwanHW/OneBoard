@@ -4,13 +4,15 @@ import { useSelector } from 'react-redux';
 import { Badge } from 'reactstrap';
 import { BiTime } from 'react-icons/bi';
 import { Draggable } from 'react-beautiful-dnd';
+import DeleteModal from './KanbanUI/DeleteModal';
 import EditDelete from './KanbanUI/EditDelete';
+import TaskModal from './KanbanUI/TaskModal';
 import styles from './Task.module.css';
 import ModalContext from '../../store/ModalContext';
 import { TYPES } from '../../store/kanban-actions';
 
-const DeleteModal = React.lazy(() => import('./KanbanUI/DeleteModal'));
-const TaskModal = React.lazy(() => import('./KanbanUI/TaskModal'));
+// const DeleteModal = React.lazy(() => import('./KanbanUI/DeleteModal'));
+// const TaskModal = React.lazy(() => import('./KanbanUI/TaskModal'));
 
 function Task(props) {
 	const { task, index: taskIndex, columnTitle } = props;
@@ -90,7 +92,6 @@ function Task(props) {
 
 const LabelBar = (props) => {
 	const { labels } = props;
-	console.log(labels);
 	const boardLabels = useSelector((state) => state.kanban.labels).filter(
 		(label) => label._id
 	);

@@ -27,7 +27,7 @@ function AddBoard(props) {
 	const {
 		value: boardName,
 		isValid: boardNameIsValid,
-		// hasError: boardNameHasError,
+		hasError: boardNameHasError,
 		onChange: boardNameOnChange,
 		onBlur: boardNameOnBlur,
 		reset: boardNameReset,
@@ -93,6 +93,7 @@ function AddBoard(props) {
 					onBlur={boardNameOnBlur}
 					placeholder="Enter board name"
 					style={{ width: '75%' }}
+					invalid={boardNameHasError}
 				/>
 			) : (
 				<Input

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, Suspense } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import styles from './App.module.css';
@@ -60,20 +60,18 @@ function App() {
 			<Route path="/editprofile">
 				{isLoggedIn ? <EditUser /> : <Redirect to="/" />}
 			</Route>
-			<Route path="/expenses">{/* <Expense /> */}</Route>
+			{/* <Route path="/expenses"><Expense /></Route> */}
 		</React.Fragment>
 	);
 
 	return (
-		<Suspense fallback={<h1>Loading</h1>}>
-			<div className={styles.app}>
-				{modalContext.isVisible && modalContext.modal}
-				<Router>
-					{isLoggedIn && <Switch>{showRoutes}</Switch>}
-					{!isLoggedIn && <Switch>{showRoutes}</Switch>}
-				</Router>
-			</div>
-		</Suspense>
+		<div className={styles.app}>
+			{modalContext.isVisible && modalContext.modal}
+			<Router>
+				{isLoggedIn && <Switch>{showRoutes}</Switch>}
+				{!isLoggedIn && <Switch>{showRoutes}</Switch>}
+			</Router>
+		</div>
 	);
 }
 

@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AiOutlinePlus, AiOutlineSearch } from 'react-icons/ai';
 import { FaCaretLeft, FaCaretRight, FaTrash } from 'react-icons/fa';
 import AddNote from './AddNote';
-// import DeleteNote from './DeleteNote';
-// import SearchNote from './SearchNote';
+import DeleteNote from './DeleteNote';
+import SearchNote from './SearchNote';
 import EditNote from './EditNote';
 import ModalContext from '../../store/ModalContext';
 import { fetchAllNotes } from '../../store/note-actions';
 
-const SearchNote = React.lazy(() => import('./SearchNote'));
-const DeleteNote = React.lazy(() => import('./DeleteNote'));
+// const SearchNote = React.lazy(() => import('./SearchNote'));
+// const DeleteNote = React.lazy(() => import('./DeleteNote'));
 
 function colorIcon(predicate) {
 	return predicate ? 'grey' : 'black';
