@@ -117,7 +117,7 @@ export const getBoard = (token, id) => {
 				.map((col) => createColumn(col));
 
 			const formatLabels = createLabels(labels);
-			console.log(formatLabels);
+			// console.log(formatLabels);
 			const newBoard = {
 				id,
 				name,

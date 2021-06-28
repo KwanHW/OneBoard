@@ -19,9 +19,9 @@ function EventModal(props) {
 	const dispatch = useDispatch();
 	const [cookies] = useCookies(['t']);
 	const { t: token } = cookies;
-	const { featured: pinned } = useSelector((state) => state.user);
+	const { featured: pinned } = useSelector((state) => state.user) || null;
 	const [isFeatured, setIsFeatured] = useState(
-		pinned ? pinned === event._id : false
+		pinned && event ? pinned === event._id : false
 	);
 	const modalContext = useContext(ModalContext);
 
@@ -40,9 +40,6 @@ function EventModal(props) {
 		}
 	};
 
-	const renderHeader =
-		modalType === 'Read' ? event.title : `${modalType} Event`;
-
 	const changeFeaturedHandler = () => {
 		if (isFeatured) {
 			// Delete pin goes here
@@ -56,6 +53,15 @@ function EventModal(props) {
 		}
 	};
 
+	const renderHeader =
+		modalType === 'Read' ? event.title : `${modalType} Event`;
+
+	const renderFeatured = isFeatured ? (
+		<AiFillPushpin onClick={changeFeaturedHandler} />
+	) : (
+		<AiOutlinePushpin onClick={changeFeaturedHandler} />
+	);
+
 	return (
 		<Modal
 			isOpen={modalContext.isVisible}
@@ -67,12 +73,7 @@ function EventModal(props) {
 				className={`${styles.close} me-3 mt-3`}
 			/>
 			<ModalHeader tag="h3">
-				{isFeatured ? (
-					<AiFillPushpin onClick={changeFeaturedHandler} />
-				) : (
-					<AiOutlinePushpin onClick={changeFeaturedHandler} />
-				)}{' '}
-				{renderHeader}
+				{modalType !== 'Add' && renderFeatured} {renderHeader}
 			</ModalHeader>
 			{renderContent()}
 		</Modal>

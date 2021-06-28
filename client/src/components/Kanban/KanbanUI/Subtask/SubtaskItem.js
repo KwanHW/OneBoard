@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
 import { ListGroupItem, Input } from 'reactstrap';
-import { kanbanActions } from '../../../../store/kanban';
+// import { kanbanActions } from '../../../../store/kanban';
 
 const SubtaskItem = (props) => {
-	const { task, subtask, index, onUpdate } = props;
+	const { subtask, index, onUpdate } = props;
 	const subtaskRef = useRef();
 	const isDoneRef = useRef();
 	const [isEdit, setIsEdit] = useState(false);
@@ -21,7 +21,12 @@ const SubtaskItem = (props) => {
 	};
 
 	const onBlurHandler = () => {
-		const name = subtaskRef.current.value;
+		let name;
+		if (subtaskRef.current) {
+			name = subtaskRef.current.value;
+		} else {
+			name = beforeChange.name;
+		}
 		const isDone = isDoneRef.current.checked;
 		if (name.trim() === '') {
 			setIsInvalid(true);
@@ -34,7 +39,7 @@ const SubtaskItem = (props) => {
 		}
 
 		const updatedSubtask = { ...beforeChange, name, isDone };
-		// ! POST Request to change
+		// POST request handled by onUpdate
 		onUpdate(index, updatedSubtask);
 		setBeforeChange(updatedSubtask);
 		setIsInvalid(false);
@@ -43,11 +48,11 @@ const SubtaskItem = (props) => {
 
 	const subtaskTitle = subtask.isDone ? (
 		<strike onClick={openEditHandler} className="w-75">
-			{subtask.name}
+			{beforeChange.name}
 		</strike>
 	) : (
 		<span onClick={openEditHandler} className="w-75">
-			{subtask.name}
+			{beforeChange.name}
 		</span>
 	);
 
@@ -70,6 +75,7 @@ const SubtaskItem = (props) => {
 					type="checkbox"
 					innerRef={isDoneRef}
 					defaultChecked={beforeChange.isDone}
+					onClick={onBlurHandler}
 				/>{' '}
 				<FaTrash
 					style={{ cursor: 'pointer' }}

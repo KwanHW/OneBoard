@@ -5,6 +5,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Column from './Column';
 import styles from './Board.module.css';
+import AddBoard from './Add/AddBoard';
 import AddColumn from './Add/AddColumn';
 import { kanbanActions } from '../../store/kanban';
 import {
@@ -13,7 +14,6 @@ import {
 	updateData,
 	getBoard,
 } from '../../store/kanban-actions';
-import AddBoard from './Add/AddBoard';
 
 function Board(props) {
 	const [isEditing, setIsEditing] = useState(false);
@@ -52,7 +52,8 @@ function Board(props) {
 	}, [dispatch, token, currentId]);
 
 	const dragEndHandler = (result) => {
-		const { source, destination, draggableId, type } = result;
+		// draggalbeId not used
+		const { source, destination, type } = result;
 
 		// Draggable dropped outside of DnD
 		// Draggable has no change in position

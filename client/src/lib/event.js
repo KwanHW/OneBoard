@@ -25,7 +25,7 @@ export function initializeEvent(event, addStart) {
 	const dateTime = event
 		? [moment(event.start), moment(event.end)]
 		: [moment(addStart), moment(addStart).add(1, 'hour')];
-	const description = event ? event.desc || '' : '';
+	const description = event ? event.description || '' : '';
 	const allDay = event ? event.allDay : false;
 	const resource = event ? event.resource || '' : '';
 	return { isAdd, allDay, title, dateTime, description, resource };

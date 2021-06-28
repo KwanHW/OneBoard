@@ -46,6 +46,33 @@ export const fetchEvents = (token, start, end) => {
 	};
 };
 
+export const fetchEvent = (token, eventId) => {
+	return async (dispatch) => {
+		const fetchData = async () => {
+			const response = await fetch(formatId(eventId), {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error('Could not fetch event');
+			}
+
+			const data = await response.json();
+
+			return data;
+		};
+		try {
+			const event = await fetchData();
+			const formatEvent = createEvent(event);
+			return formatEvent;
+		} catch (error) {}
+	};
+};
+
 export const addEvent = (token, event) => {
 	return async (dispatch) => {
 		const options = {
@@ -148,17 +175,17 @@ export const changeFeatured = (token, id) => {
 
 		const postData = async () => {
 			const response = await fetch(url, options);
-			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error(data.message);
+				throw new Error('Could not update featured');
 			}
-			return data;
 		};
 
 		try {
 			await postData();
 			dispatch(userActions.updateFeatured(id));
-		} catch (error) {}
+		} catch (error) {
+			console.log('Error:', error.message);
+		}
 	};
 };

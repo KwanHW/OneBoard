@@ -71,7 +71,8 @@ function EditBoard() {
 		else data = { name: boardName };
 		dispatch(updateLabels(token, data, board.id));
 		dispatch(userActions.updateBoard({ _id: board.id, name: boardName }));
-		// TODO Add a success banner ?
+		modalContext.hideModal();
+		//  Add a success banner ?
 	};
 
 	const renderLabels = LABEL_TYPES.map((label, index) => {
@@ -120,7 +121,7 @@ function EditBoard() {
 				<Button color="success" onClick={confirmChangeHandler}>
 					Confirm Changes
 				</Button>
-				<Button color="danger">Delete Board</Button>
+				{/* <Button color="danger">Delete Board</Button> */}
 				<Button outline onClick={modalContext.hideModal}>
 					Close
 				</Button>

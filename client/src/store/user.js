@@ -62,6 +62,7 @@ const userSlice = createSlice({
 		},
 		// * Calendar related information
 		updateFeatured(state, action) {
+			console.log(action.payload);
 			state.featured = action.payload;
 		},
 	},

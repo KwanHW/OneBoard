@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Nav, NavLink, TabContent, TabPane } from 'reactstrap';
 import MainLayout from '../Layout/MainLayout';
-import ChangeInfo from '../components/Profile/ChangeInfo';
-import ChangePassword from '../components/Profile/ChangePassword';
+// import ChangeInfo from '../components/Profile/ChangeInfo';
+// import ChangePassword from '../components/Profile/ChangePassword';
 
 const EDIT = { info: 'changeInfo', password: 'changePW' };
 
-function Home() {
+const ChangeInfo = React.lazy(() => import('../components/Profile/ChangeInfo'));
+
+const ChangePassword = React.lazy(() =>
+	import('../components/Profile/ChangePassword')
+);
+
+function EditUser() {
 	const [activeTab, setActiveTab] = useState(EDIT.info);
 
 	return (
@@ -43,4 +49,4 @@ function Home() {
 	);
 }
 
-export default Home;
+export default EditUser;

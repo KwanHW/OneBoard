@@ -17,7 +17,7 @@ function DeleteModal(props) {
 
 	const deleteHandler = () => {
 		dispatch(deleteData(token, type, id));
-		if (type == TYPES.BOARD) {
+		if (type === TYPES.BOARD) {
 			dispatch(userActions.deleteBoard({ boardId: id, index }));
 		}
 

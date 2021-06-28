@@ -1,15 +1,16 @@
 import moment from 'moment';
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { Badge, Progress } from 'reactstrap';
+import { Badge } from 'reactstrap';
 import { BiTime } from 'react-icons/bi';
 import { Draggable } from 'react-beautiful-dnd';
 import EditDelete from './KanbanUI/EditDelete';
-import DeleteModal from './KanbanUI/DeleteModal';
-import TaskModal from './KanbanUI/TaskModal';
 import styles from './Task.module.css';
 import ModalContext from '../../store/ModalContext';
 import { TYPES } from '../../store/kanban-actions';
+
+const DeleteModal = React.lazy(() => import('./KanbanUI/DeleteModal'));
+const TaskModal = React.lazy(() => import('./KanbanUI/TaskModal'));
 
 function Task(props) {
 	const { task, index: taskIndex, columnTitle } = props;
@@ -62,9 +63,14 @@ function Task(props) {
 						onClick={showTaskHandler}
 					>
 						<p>{task.name}</p>
-						<ProgressBar labels={task.label} />
+						<LabelBar labels={task.label} />
 						{task.expireAt && (
-							<p style={{ fontSize: '16px', marginTop: '4px' }}>
+							<p
+								style={{
+									fontSize: '16px',
+									marginTop: '4px',
+								}}
+							>
 								<Badge className="bg-warning align-self-start">
 									<BiTime />{' '}
 									{moment(task.expireAt).format('DD/MM/YY')}
@@ -82,8 +88,9 @@ function Task(props) {
 	);
 }
 
-const ProgressBar = (props) => {
+const LabelBar = (props) => {
 	const { labels } = props;
+	console.log(labels);
 	const boardLabels = useSelector((state) => state.kanban.labels).filter(
 		(label) => label._id
 	);

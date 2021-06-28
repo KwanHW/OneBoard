@@ -77,7 +77,7 @@ function EditEvent(props) {
 				{ start, end }
 			)
 		) {
-			alert('Return to view');
+			returnToView(event);
 			return;
 		}
 
@@ -107,9 +107,8 @@ function EditEvent(props) {
 		// * Updating Events
 		eventReq['_id'] = event._id;
 		dispatch(updateEvent(token, eventReq));
-		alert('Return to view');
 
-		// returnToView({ ...payload.event, start, end });
+		returnToView({ ...eventReq, title, resource: newPlace });
 	};
 
 	const cancelHandler = () => {
@@ -187,6 +186,7 @@ function EditEvent(props) {
 							<HiLocationMarker />
 							Location
 						</Label>
+						{console.log(initEvent)}
 						<Input
 							type="text"
 							id="place"

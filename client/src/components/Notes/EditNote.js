@@ -1,7 +1,6 @@
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { Input, InputGroup } from 'reactstrap';
-import { noteActions } from '../../store/note';
 import { updateNote } from '../../store/note-actions';
 
 const EditNote = (props) => {

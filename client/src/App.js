@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, Suspense } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import styles from './App.module.css';
@@ -18,7 +18,7 @@ import { kanbanActions } from './store/kanban';
 import { fetchUserData } from './store/user-actions';
 import { noteActions } from './store/note';
 import { eventActions } from './store/event';
-import Expense from './components/Expense/Expense';
+// import Expense from './components/Expense/Expense'; <- blanked out for now
 
 function App() {
 	const dispatch = useDispatch();
@@ -60,20 +60,20 @@ function App() {
 			<Route path="/editprofile">
 				{isLoggedIn ? <EditUser /> : <Redirect to="/" />}
 			</Route>
-			<Route path="/expenses">
-				<Expense />
-			</Route>
+			<Route path="/expenses">{/* <Expense /> */}</Route>
 		</React.Fragment>
 	);
 
 	return (
-		<div className={styles.app}>
-			{modalContext.isVisible && modalContext.modal}
-			<Router>
-				{isLoggedIn && <Switch>{showRoutes}</Switch>}
-				{!isLoggedIn && <Switch>{showRoutes}</Switch>}
-			</Router>
-		</div>
+		<Suspense fallback={<h1>Loading</h1>}>
+			<div className={styles.app}>
+				{modalContext.isVisible && modalContext.modal}
+				<Router>
+					{isLoggedIn && <Switch>{showRoutes}</Switch>}
+					{!isLoggedIn && <Switch>{showRoutes}</Switch>}
+				</Router>
+			</div>
+		</Suspense>
 	);
 }
 

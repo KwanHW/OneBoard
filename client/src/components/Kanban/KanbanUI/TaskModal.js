@@ -146,6 +146,12 @@ function TaskModal(props) {
 		const newSubtasks = [...subTasks];
 		if (subtask) newSubtasks.splice(index, 1, subtask);
 		else newSubtasks.splice(index, 1);
+		if (!isWrite) {
+			const updatedTask = { ...task, subTask: newSubtasks };
+			dispatch(
+				updateData(token, TYPES.TASK, updatedTask, updatedTask._id)
+			);
+		}
 		setSubTasks(newSubtasks);
 	};
 
@@ -297,7 +303,6 @@ function TaskModal(props) {
 				)}
 				<SubtaskList
 					subtasks={subTasks}
-					// taskId={task._id}
 					task={task}
 					onUpdate={updateSubtaskHandler}
 				/>

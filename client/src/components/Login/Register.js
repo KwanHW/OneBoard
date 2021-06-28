@@ -88,7 +88,9 @@ export default function Register() {
 		const response = await dispatch(register(user));
 
 		if (response.status) {
-			const loginResponse = await dispatch(login({ email, password }));
+			const loginResponse = await dispatch(
+				login({ username: email, password })
+			);
 			if (loginResponse.status) {
 				const { data } = loginResponse;
 				const id = data.user._id;
