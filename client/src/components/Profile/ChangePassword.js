@@ -127,10 +127,12 @@ function ChangePassword(props) {
 						Password.
 					</FormFeedback>
 				</FormGroup>
-				<Button type="submit" color="success">
-					Change Password
-				</Button>
-				<Button outline>Go back</Button>
+				<div className="mt-4">
+					<Button type="submit" color="success">
+						Change Password
+					</Button>
+					<Button outline>Go back</Button>
+				</div>
 			</Form>
 		</React.Fragment>
 	);

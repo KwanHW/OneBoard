@@ -17,7 +17,7 @@ function EditUser() {
 
 	return (
 		<MainLayout>
-			<Nav tabs className="mt-4 ">
+			<Nav tabs className="mt-4">
 				<NavLink
 					onClick={() => {
 						setActiveTab(EDIT.info);

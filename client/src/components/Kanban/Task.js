@@ -1,22 +1,24 @@
 import moment from 'moment';
 import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
 import { Badge } from 'reactstrap';
-import { BiTime } from 'react-icons/bi';
 import { Draggable } from 'react-beautiful-dnd';
+import { BiTime } from 'react-icons/bi';
+import { useSelector } from 'react-redux';
 import DeleteModal from './Delete/DeleteModal';
 import EditDelete from './KanbanUI/EditDelete';
+import LabelBar from '../../UI/LabelBar';
 import TaskModal from './KanbanUI/TaskModal';
 import styles from './Task.module.css';
 import ModalContext from '../../store/ModalContext';
 import { TYPES } from '../../store/kanban-actions';
-
-// const DeleteModal = React.lazy(() => import('./KanbanUI/DeleteModal'));
-// const TaskModal = React.lazy(() => import('./KanbanUI/TaskModal'));
+import { DATE_FORMAT, hasId } from '../../lib/validators';
 
 function Task(props) {
 	const { task, index: taskIndex, columnTitle } = props;
 	const modalContext = useContext(ModalContext);
+	const boardLabels = useSelector((state) => state.kanban.labels).filter(
+		hasId
+	);
 
 	const deleteTaskHandler = (e) => {
 		e.stopPropagation();
@@ -49,6 +51,7 @@ function Task(props) {
 				task={task}
 				columnTitle={columnTitle}
 				onDelete={deleteTask}
+				boardLabels={boardLabels}
 			/>
 		);
 	};
@@ -65,17 +68,12 @@ function Task(props) {
 						onClick={showTaskHandler}
 					>
 						<p>{task.name}</p>
-						<LabelBar labels={task.label} />
+						<LabelBar labels={task.label} labelSrc={boardLabels} />
 						{task.expireAt && (
-							<p
-								style={{
-									fontSize: '16px',
-									marginTop: '4px',
-								}}
-							>
+							<p className={styles.deadline}>
 								<Badge className="bg-warning align-self-start">
 									<BiTime />{' '}
-									{moment(task.expireAt).format('DD/MM/YY')}
+									{moment(task.expireAt).format(DATE_FORMAT)}
 								</Badge>
 							</p>
 						)}
@@ -89,30 +87,5 @@ function Task(props) {
 		</Draggable>
 	);
 }
-
-const LabelBar = (props) => {
-	const { labels } = props;
-	const boardLabels = useSelector((state) => state.kanban.labels).filter(
-		(label) => label._id
-	);
-
-	if (!labels) return null;
-
-	return (
-		<div className="my-1">
-			{labels.map((label) => {
-				const foundLabel = boardLabels.find(
-					(bLabel) => bLabel._id === label
-				);
-				if (!foundLabel) return null;
-				return (
-					<Badge className={`bg-${foundLabel.type}`} key={label}>
-						{foundLabel.name}
-					</Badge>
-				);
-			})}
-		</div>
-	);
-};
 
 export default Task;

@@ -1,49 +1,51 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { sortByDate } from '../lib/expense';
 
 const initialState = { expense: [], labels: [] };
-
-function sortExpenses(expA, expB) {
-	return expA.date.valueOf() - expB.date.valueOf();
-}
 
 const expenseSlice = createSlice({
 	name: 'expense',
 	initialState,
 	reducers: {
-		// ! To be handled by POST Request - for testing only
 		addExpense(state, action) {
-			const id = `${state.expense.length}`;
-			const { name, date: dateStr, amount } = action.payload;
-			const date = new Date(dateStr);
-			const newExpense = { id, name, date, amount };
-			const newState = [...state.expense, newExpense].sort(sortExpenses);
-			return { expense: newState, labels: state.labels };
+			const expense = action.payload;
+			const newExpenses = [...state.expense, expense].sort(sortByDate);
+			state.expense = newExpenses;
+		},
+		bulkAddExpense(state, action) {
+			const expenses = action.payload;
+			const newExpenses = [...state.expense]
+				.concat(expenses)
+				.sort(sortByDate);
+			return { expense: newExpenses, labels: state.labels };
 		},
 		deleteExpense(state, action) {
 			const id = action.payload;
-			const newState = state.expense.filter(
-				(expense) => expense.id !== id
+			const newExpenses = state.expense.filter(
+				(expense) => expense._id !== id
 			);
-			return { expense: newState, labels: state.labels };
+			return { expense: newExpenses, labels: state.labels };
 		},
 		updateExpense(state, action) {
-			const { id, date: dateStr, name, amount, label } = action.payload;
-			const date = new Date(dateStr);
-			const updatedExpense = { id, date, name, amount, label };
-			const newState = state.expense
+			const newExpense = action.payload;
+			state.expense = state.expense
 				.map((expense) =>
-					expense.id === id ? updatedExpense : expense
+					expense._id === newExpense._id ? newExpense : expense
 				)
-				.sort(sortExpenses);
-			return { expense: newState, labels: state.labels };
+				.sort(sortByDate);
 		},
 		replace(state, action) {
-			const { expense, labels } = action.payload;
-			const replaceExpense = expense.map((expense) => {
-				const date = new Date(expense.date);
-				return { ...expense, date };
-			});
-			return { expense: replaceExpense, labels };
+			const { type, expenses, labels } = action.payload;
+			switch (type) {
+				case 'expenses':
+					state.expense = expenses.sort(sortByDate);
+					return;
+				case 'labels':
+					state.labels = labels;
+					return;
+				default:
+					return { expense: expenses, labels };
+			}
 		},
 		store(state) {
 			// Requires date to be converted (see event.js)

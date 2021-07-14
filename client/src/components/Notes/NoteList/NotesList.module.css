@@ -1,0 +1,23 @@
+.selected {
+	color: white;
+}
+
+.notSelected {
+	color: black;
+}
+
+.subText {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 30ch;
+}
+
+.cursor {
+	cursor: pointer;
+}
+
+.noteList {
+	max-height: 350px;
+	overflow-y: auto;
+}

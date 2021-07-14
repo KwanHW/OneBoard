@@ -18,23 +18,21 @@ import { kanbanActions } from './store/kanban';
 import { fetchUserData } from './store/user-actions';
 import { noteActions } from './store/note';
 import { eventActions } from './store/event';
-// import Expense from './components/Expense/Expense'; <- blanked out for now
+import { expenseActions } from './store/expense';
 
 function App() {
 	const dispatch = useDispatch();
 	const [cookies] = useCookies(['t']);
 	const { t: token } = cookies;
-	const id = localStorage.getItem('id') || '';
+	// const id = localStorage.getItem('id') || '';
 	const authContext = useContext(AuthContext);
 	const modalContext = useContext(ModalContext);
 	const isLoggedIn = authContext.isLoggedIn;
 
-	// Only used for persistence
-	// Need to check if token is expiring
 	useEffect(() => {
 		if (token) {
 			authContext.login(token);
-			dispatch(fetchUserData(id, token));
+			dispatch(fetchUserData(token));
 		}
 	}, []);
 
@@ -44,6 +42,7 @@ function App() {
 			dispatch(kanbanActions.clear());
 			dispatch(noteActions.clear());
 			dispatch(eventActions.clear());
+			dispatch(expenseActions.clear());
 			modalContext.hideModal();
 			localStorage.clear();
 		}
@@ -60,7 +59,6 @@ function App() {
 			<Route path="/editprofile">
 				{isLoggedIn ? <EditUser /> : <Redirect to="/" />}
 			</Route>
-			{/* <Route path="/expenses"><Expense /></Route> */}
 		</React.Fragment>
 	);
 

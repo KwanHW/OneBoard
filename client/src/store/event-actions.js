@@ -1,45 +1,26 @@
 import { createEvent } from '../lib/event';
 import { eventActions } from './event';
 import { userActions } from './user';
+import {
+	deleteRequest,
+	getRequest,
+	postRequest,
+	putRequest,
+	determineURL,
+	formatQueryString,
+} from '../lib/fetch';
 
-const URL_HEADERS = '/api/event';
-
-function formatId(id) {
-	return `${URL_HEADERS}/${id}`;
-}
-
-function formatQueryString(start, end) {
-	return `${URL_HEADERS}?start=${start}&end=${end}`;
-}
+const URL_HEADER = '/api/event';
 
 export const fetchEvents = (token, start, end) => {
 	const formatStart = start.toISOString();
 	const formatEnd = end.toISOString();
 	return async (dispatch) => {
-		const fetchData = async () => {
-			const response = await fetch(
-				formatQueryString(formatStart, formatEnd),
-				{
-					method: 'GET',
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-Type': 'application/json',
-					},
-				}
-			);
-
-			// If there are no events on the user it would also lead to 400
-			if (!response.ok) {
-				throw new Error('Could not fetch events');
-			}
-
-			const data = await response.json();
-
-			return data;
-		};
-
 		try {
-			const eventRes = await fetchData();
+			const eventRes = await getRequest(
+				token,
+				formatQueryString(URL_HEADER, formatStart, formatEnd)
+			);
 			const events = eventRes.map((event) => createEvent(event));
 			dispatch(eventActions.replace(events));
 		} catch (error) {}
@@ -47,55 +28,22 @@ export const fetchEvents = (token, start, end) => {
 };
 
 export const fetchEvent = (token, eventId) => {
-	return async (dispatch) => {
-		const fetchData = async () => {
-			const response = await fetch(formatId(eventId), {
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
-			});
-
-			if (!response.ok) {
-				throw new Error('Could not fetch event');
-			}
-
-			const data = await response.json();
-
-			return data;
-		};
+	return async () => {
 		try {
-			const event = await fetchData();
+			const event = await getRequest(
+				token,
+				determineURL(URL_HEADER, eventId)
+			);
 			const formatEvent = createEvent(event);
 			return formatEvent;
 		} catch (error) {}
 	};
 };
 
-export const addEvent = (token, event) => {
+export const addEvent = (token, eventReq) => {
 	return async (dispatch) => {
-		const options = {
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${token}`,
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(event),
-		};
-
-		const postData = async () => {
-			const response = await fetch(URL_HEADERS, options);
-			const data = await response.json();
-
-			if (!response.ok) {
-				throw new Error(data.message);
-			}
-			return data;
-		};
-
 		try {
-			const addEvent = await postData();
+			const addEvent = await postRequest(token, URL_HEADER, eventReq);
 			const event = createEvent(addEvent);
 			dispatch(eventActions.addEvent(event));
 		} catch (error) {
@@ -106,27 +54,12 @@ export const addEvent = (token, event) => {
 
 export const updateEvent = (token, eventUpd) => {
 	return async (dispatch) => {
-		const updateData = async () => {
-			const response = await fetch(formatId(eventUpd._id), {
-				method: 'PUT',
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(eventUpd),
-			});
-
-			if (!response.ok) {
-				throw new Error('Could not update event');
-			}
-
-			const data = await response.json();
-
-			return data;
-		};
-
 		try {
-			const { event } = await updateData();
+			const event = await putRequest(
+				token,
+				determineURL(URL_HEADER, eventUpd._id),
+				eventUpd
+			);
 			const formatEvent = createEvent(event);
 			dispatch(eventActions.updateEvent(formatEvent));
 		} catch (error) {}
@@ -135,32 +68,14 @@ export const updateEvent = (token, eventUpd) => {
 
 export const deleteEvent = (token, id) => {
 	return async (dispatch) => {
-		const deleteData = async () => {
-			console.log(formatId(id));
-			const response = await fetch(formatId(id), {
-				method: 'DELETE',
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
-			});
-
-			if (!response.ok) {
-				throw new Error('Could not update event');
-			}
-
-			const data = await response.json();
-
-			return data;
-		};
-
 		try {
-			await deleteData();
+			deleteRequest(token, determineURL(URL_HEADER, id));
 			dispatch(eventActions.deleteEvent(id));
 		} catch (error) {}
 	};
 };
 
+// Need to see how to change this
 export const changeFeatured = (token, id) => {
 	return async (dispatch) => {
 		const options = {
@@ -171,7 +86,7 @@ export const changeFeatured = (token, id) => {
 			},
 		};
 
-		const url = `${URL_HEADERS}/${id}`;
+		const url = `${URL_HEADER}/${id}`;
 
 		const postData = async () => {
 			const response = await fetch(url, options);

@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
-import { Input } from 'reactstrap';
+import { Input, Button } from 'reactstrap';
 import { AiOutlineClose } from 'react-icons/ai';
 import styles from './AddColumn.module.css';
 import { addData, TYPES } from '../../../store/kanban-actions';
@@ -13,7 +13,9 @@ const AddColumn = (props) => {
 	const [cookies] = useCookies(['t']);
 	const token = cookies.t;
 
-	const addColumnHandler = () => {
+	const addColumnHandler = (e) => {
+		e.preventDefault();
+
 		if (columnName.current.value.trim() === '') {
 			props.onCancel();
 			return;
@@ -41,10 +43,14 @@ const AddColumn = (props) => {
 				innerRef={columnName}
 				onBlur={cancelHandler}
 			/>
-			<div className={styles.btnRow}>
-				<button onClick={addColumnHandler} className={styles.confirm}>
+			<div className="mt-2">
+				<Button
+					type="submit"
+					onClick={addColumnHandler}
+					className={styles.confirm}
+				>
 					Add Column
-				</button>
+				</Button>
 				<AiOutlineClose
 					onClick={props.onCancel}
 					className={styles.cancel}

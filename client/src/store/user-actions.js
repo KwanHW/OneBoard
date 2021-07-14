@@ -1,4 +1,7 @@
 import { userActions } from './user';
+import { getRequest, postRequest } from '../lib/fetch';
+import { expenseActions } from './expense';
+import { createLabels } from '../lib/kanban';
 
 export const login = (userData) => {
 	return async () => {
@@ -12,7 +15,7 @@ export const login = (userData) => {
 			const data = await response.json();
 
 			if (!response.ok) {
-				throw new Error('Invalid email or password.');
+				throw new Error('Incorrect e-mail or password');
 			}
 
 			return data;
@@ -22,7 +25,8 @@ export const login = (userData) => {
 			const loginResponse = await loginData();
 			return { status: true, data: loginResponse };
 		} catch (error) {
-			return { status: false, message: error.message };
+			console.log(error);
+			return { status: false, message: 'Incorrect e-mail or password' };
 		}
 	};
 };
@@ -51,38 +55,27 @@ export const register = (userData) => {
 		}
 	};
 };
-export const fetchUserData = (id, token) => {
+
+export const fetchUserData = (token) => {
 	return async (dispatch) => {
-		const fetchData = async () => {
-			const response = await fetch(`/api/user/`, {
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
-			});
-
-			if (!response.ok) {
-				throw new Error('Could not fetch user data!');
-			}
-
-			const data = await response.json();
-
-			return data;
-		};
-
 		try {
-			const userData = await fetchData();
-			console.log(userData.user.featured);
+			const userData = await getRequest(token, '/api/user');
 			dispatch(
 				userActions.login({
 					id: userData.user._id,
-					token,
 					firstName: userData.user.firstName,
 					lastName: userData.user.lastName,
 					email: userData.user.username,
 					boards: userData.user.boards,
 					featured: userData.user.featured,
+				})
+			);
+			const formatLabels = createLabels(userData.user.expenseLabels);
+			// console.log(formatLabels);
+			dispatch(
+				expenseActions.replace({
+					type: 'labels',
+					labels: formatLabels,
 				})
 			);
 
@@ -95,26 +88,26 @@ export const fetchUserData = (id, token) => {
 
 export const updateName = (token, userData) => {
 	return async (dispatch) => {
-		const updateData = async () => {
-			const response = await fetch('/api/user', {
-				method: 'POST',
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(userData),
-			});
-			if (!response.ok) {
-				throw new Error('Could not change user name!');
-			}
+		// const updateData = async () => {
+		// 	const response = await fetch('/api/user', {
+		// 		method: 'POST',
+		// 		headers: {
+		// 			Authorization: `Bearer ${token}`,
+		// 			'Content-Type': 'application/json',
+		// 		},
+		// 		body: JSON.stringify(userData),
+		// 	});
+		// 	if (!response.ok) {
+		// 		throw new Error('Could not change user name!');
+		// 	}
 
-			const data = await response.json();
+		// 	const data = await response.json();
 
-			return data;
-		};
+		// 	return data;
+		// };
 
 		try {
-			const updateResponse = await updateData();
+			postRequest(token, '/api/user', userData);
 			dispatch(userActions.update(userData));
 		} catch (error) {}
 	};
@@ -122,26 +115,27 @@ export const updateName = (token, userData) => {
 
 export const updatePassword = (token, userPW) => {
 	return async (dispatch) => {
-		const updateData = async () => {
-			const response = await fetch('/api/user/pass', {
-				method: 'POST',
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(userPW),
-			});
-			if (!response.ok) {
-				throw new Error('Could not change user password!');
-			}
+		// const updateData = async () => {
+		// 	const response = await fetch('/api/user/pass', {
+		// 		method: 'POST',
+		// 		headers: {
+		// 			Authorization: `Bearer ${token}`,
+		// 			'Content-Type': 'application/json',
+		// 		},
+		// 		body: JSON.stringify(userPW),
+		// 	});
+		// 	if (!response.ok) {
+		// 		throw new Error('Could not change user password!');
+		// 	}
 
-			const data = await response.json();
+		// 	const data = await response.json();
 
-			return data;
-		};
+		// 	return data;
+		// };
 
 		try {
-			const response = await updateData();
+			// const response = await updateData();
+			postRequest(token, '/api/user/pass', userPW);
 		} catch (error) {}
 	};
 };

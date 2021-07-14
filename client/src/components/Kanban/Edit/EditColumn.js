@@ -1,4 +1,5 @@
 import React, { useContext, useState, useRef } from 'react';
+import { Input } from 'reactstrap';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
@@ -12,7 +13,7 @@ function EditColumn(props) {
 	const { title, column, onCancel } = props;
 	const titleRef = useRef();
 	const modalContext = useContext(ModalContext);
-	const [editTitle, setIsEditTitle] = useState(props.title);
+	const [editTitle, setIsEditTitle] = useState(title);
 	const [cookies] = useCookies(['t']);
 	const token = cookies.t;
 	const dispatch = useDispatch();
@@ -37,10 +38,11 @@ function EditColumn(props) {
 
 	return (
 		<div className={styles.editTitle}>
-			<input
+			<Input
 				autoFocus
-				ref={titleRef}
-				placeholder={title}
+				type="text"
+				innerRef={titleRef}
+				defaultValue={title}
 				onBlur={updateColumnHandler}
 			/>
 			<FaTrash

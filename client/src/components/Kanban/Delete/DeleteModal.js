@@ -6,10 +6,9 @@ import styles from './DeleteModal.module.css';
 import { deleteData } from '../../../store/kanban-actions';
 import ModalContext from '../../../store/ModalContext';
 import { TYPES } from '../../../store/kanban-actions';
-import { userActions } from '../../../store/user';
 
 function DeleteModal(props) {
-	const { type, id, index } = props;
+	const { type, id } = props;
 	const modalContext = useContext(ModalContext);
 	const dispatch = useDispatch();
 	const [cookies] = useCookies(['t']);
@@ -17,10 +16,6 @@ function DeleteModal(props) {
 
 	const deleteHandler = () => {
 		dispatch(deleteData(token, type, id));
-		if (type === TYPES.BOARD) {
-			dispatch(userActions.deleteBoard({ boardId: id, index }));
-		}
-
 		modalContext.hideModal();
 	};
 

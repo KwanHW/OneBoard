@@ -10,9 +10,10 @@ function determineCountdown(start, end) {
 	let daysDiff;
 	let isStart = true;
 	if (moment().isBefore(start)) {
-		daysDiff = moment().diff(start, 'days') * -1;
+		daysDiff = moment().diff(start, 'days') * -1 + 1;
+		console.log(daysDiff);
 	} else {
-		daysDiff = moment().diff(end, 'days');
+		daysDiff = moment().diff(end, 'days') * -1;
 		isStart = false;
 	}
 
@@ -38,15 +39,10 @@ function Countdown() {
 			setFeaturedEvent(null);
 		}
 		return () => {};
-	}, [featured]);
+	}, [dispatch, token, featured]);
 
 	if (!featuredEvent) {
-		return (
-			<React.Fragment>
-				<h3> Countdown</h3>
-				<p>No events for countdown.</p>
-			</React.Fragment>
-		);
+		return <p>No events for countdown.</p>;
 	}
 
 	const countdown = determineCountdown(
@@ -59,14 +55,14 @@ function Countdown() {
 		: '';
 
 	return (
-		<React.Fragment>
-			<h3> Countdown</h3>
-			<p>
+		<div>
+			{countdown.daysDiff > 0 && <h2>{countdown.daysDiff}</h2>}
+			<p style={{ fontSize: '1.15em' }}>
 				{countdown.daysDiff >= 0
-					? `${countdown.daysDiff} days to ${formatMessage} ${featuredEvent.title}`
+					? `days to ${formatMessage} ${featuredEvent.title}`
 					: 'Event selected has passed.'}
 			</p>
-		</React.Fragment>
+		</div>
 	);
 }
 

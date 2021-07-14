@@ -52,12 +52,13 @@ const userSlice = createSlice({
 			state.boards.selectedBoard = action.payload;
 		},
 		deleteBoard(state, action) {
-			const { boardId, index } = action.payload;
-			let newIndex = index - 1;
-			if (index === 0) newIndex = 1;
+			const id = action.payload;
+			let newIndex =
+				state.boards.boards.findIndex((board) => board._id === id) - 1;
+			if (newIndex === 0) newIndex = 1;
 			state.boards.selectedBoard = state.boards.boards[newIndex];
 			state.boards.boards = state.boards.boards.filter(
-				(board) => board._id !== boardId
+				(board) => board._id !== id
 			);
 		},
 		// * Calendar related information

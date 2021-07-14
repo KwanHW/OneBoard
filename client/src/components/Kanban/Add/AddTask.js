@@ -7,7 +7,7 @@ import styles from './AddTask.module.css';
 import { TYPES, addData } from '../../../store/kanban-actions';
 
 const AddTask = (props) => {
-	const { next: order, columnId, onCancel } = props;
+	const { columnId, onCancel, next: order } = props;
 	const dispatch = useDispatch();
 	const taskName = useRef();
 	const [cookies] = useCookies(['t']);
@@ -35,14 +35,11 @@ const AddTask = (props) => {
 	};
 
 	return (
-		<div className={styles.addTask}>
+		<div>
 			<Input
 				autoFocus
-				type="textarea"
-				rows="2"
 				placeholder="Enter Task here"
 				innerRef={taskName}
-				className={styles.text}
 				onBlur={cancelHandler}
 			/>
 			<div className="mt-2">

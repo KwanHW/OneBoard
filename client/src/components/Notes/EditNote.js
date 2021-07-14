@@ -6,7 +6,7 @@ import { updateNote } from '../../store/note-actions';
 const EditNote = (props) => {
 	const [cookies] = useCookies(['t']);
 	const { t: token } = cookies;
-	const { isTitle, onCancel, note } = props;
+	const { isTitle, onCancel, onEdit, note } = props;
 	const dispatch = useDispatch();
 
 	const cancelHandler = (e) => {
@@ -23,6 +23,7 @@ const EditNote = (props) => {
 		if (isTitle) newNote = { ...note, name: newData };
 		else newNote = { ...note, description: newData };
 		dispatch(updateNote(token, note._id, newNote));
+		onEdit(newNote);
 		onCancel();
 	};
 

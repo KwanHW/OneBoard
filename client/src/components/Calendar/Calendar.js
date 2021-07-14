@@ -93,24 +93,22 @@ function Calendar() {
 	};
 
 	return (
-		<React.Fragment>
-			<DnDCalendar
-				{...calendar}
-				onNavigate={dateChangeHandler}
-				onView={viewChangeHandler}
-				events={events}
-				localizer={localizer}
-				style={{ height: '55vh' }}
-				onEventDrop={eventDropHandler}
-				onEventResize={eventDropHandler}
-				onSelectSlot={addEventHandler}
-				onSelectEvent={viewEventHandler}
-				views={['month', 'day']}
-				resizable
-				selectable
-				popup
-			/>
-		</React.Fragment>
+		<DnDCalendar
+			{...calendar}
+			onNavigate={dateChangeHandler}
+			onView={viewChangeHandler}
+			events={events}
+			localizer={localizer}
+			style={{ height: '55vh' }}
+			onEventDrop={eventDropHandler}
+			onEventResize={eventDropHandler}
+			onSelectSlot={addEventHandler}
+			onSelectEvent={viewEventHandler}
+			views={['month', 'day']}
+			resizable
+			selectable
+			popup
+		/>
 	);
 }
 

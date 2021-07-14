@@ -1,0 +1,19 @@
+.delete {
+	font-size: 20px;
+	color: gray;
+	cursor: pointer;
+}
+
+.delete:hover {
+	color: red;
+}
+
+.noteContent {
+	min-height: 85%;
+}
+
+.textContent {
+	white-space: pre-line;
+	overflow-y: auto;
+	max-height: 16em;
+}

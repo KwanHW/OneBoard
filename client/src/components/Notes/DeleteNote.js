@@ -15,7 +15,6 @@ const DeleteNote = (props) => {
 	const dispatch = useDispatch();
 
 	const deleteHandler = () => {
-		console.log('Delete Task');
 		const { _id } = note;
 		dispatch(deleteNote(token, _id));
 		modalContext.hideModal();

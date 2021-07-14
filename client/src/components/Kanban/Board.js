@@ -5,15 +5,14 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Column from './Column';
 import styles from './Board.module.css';
-import AddBoard from './Add/AddBoard';
-import AddColumn from './Add/AddColumn';
-import { kanbanActions } from '../../store/kanban';
 import {
 	TYPES,
 	fetchAllBoards,
 	updateData,
-	getBoard,
+	fetchBoard,
 } from '../../store/kanban-actions';
+import AddData from './Add/AddData';
+import ManageBoard from './KanbanUI/ManageBoard';
 
 function Board(props) {
 	const [isEditing, setIsEditing] = useState(false);
@@ -23,32 +22,20 @@ function Board(props) {
 	const { _id: currentId } = selectedBoard || '';
 	const kanban = useSelector((state) => state.kanban);
 	const { columns, id: boardId } = kanban;
+	const [filteredCols, setFilteredCols] = useState(columns);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		function boardFromStorage() {
-			let strBoard = localStorage.getItem('currentBoard');
-			let jsonBoard = JSON.parse(strBoard);
-
-			if (jsonBoard && jsonBoard.id !== currentId && currentId) {
-				console.log('Calling getBoard');
-				dispatch(getBoard(token, currentId));
-				return;
-			}
-
-			if (strBoard === JSON.stringify(kanban)) {
-				console.log('Mount from storage', jsonBoard);
-				dispatch(kanbanActions.replace(jsonBoard));
+			if (currentId) {
+				dispatch(fetchBoard(token, currentId));
 			} else {
-				console.log('Fetch from server');
 				dispatch(fetchAllBoards(token));
 			}
 		}
 
 		boardFromStorage();
-		return () => {
-			dispatch(kanbanActions.store());
-		};
+		return () => {};
 	}, [dispatch, token, currentId]);
 
 	const dragEndHandler = (result) => {
@@ -119,15 +106,23 @@ function Board(props) {
 		setIsEditing((prev) => !prev);
 	};
 
-	const renderCols = columns.map((col, index) => (
-		<Column key={col._id} index={index} boardId={boardId} column={col} />
+	const renderCols = filteredCols.map((col, index) => (
+		<Column
+			key={col._id}
+			index={index}
+			boardId={boardId}
+			column={col}
+			data-testid="column"
+		/>
 	));
 
 	const renderAddCol = isEditing ? (
-		<AddColumn
+		<AddData
+			id={boardId}
 			onCancel={toggleAddColumn}
-			boardId={boardId}
-			next={columns.length}
+			order={columns.length}
+			type={TYPES.COLUMN}
+			className={styles.addCol}
 		/>
 	) : (
 		<div className={styles.addColBtn} onClick={toggleAddColumn}>
@@ -139,8 +134,7 @@ function Board(props) {
 	return (
 		<div className="d-flex flex-column p-4">
 			{/* Handle Board Manipulation */}
-			{/* Improve refactoring at Milestone 3 */}
-			<AddBoard />
+			<ManageBoard onFilter={setFilteredCols} />
 			{/* The kanban board itself */}
 			{boards.length > 0 && (
 				<div className={`d-flex flex-row ${styles.kanban}`}>

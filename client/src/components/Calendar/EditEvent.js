@@ -62,7 +62,7 @@ function EditEvent(props) {
 		const newPlace = placeRef.current.value;
 		let [start, end] = dateTime;
 
-		if (!titleIsValid || start === null || end == null) {
+		if (!titleIsValid || start === null || end === null) {
 			changeMessage('Please make sure title and duration is not empty.');
 			return;
 		}

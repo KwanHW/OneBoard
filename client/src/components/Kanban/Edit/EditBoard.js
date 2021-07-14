@@ -1,10 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineClose } from 'react-icons/ai';
 import {
 	Button,
-	Badge,
 	Form,
 	Input,
 	Label,
@@ -16,15 +15,16 @@ import {
 import ModalContext from '../../../store/ModalContext';
 import styles from './EditBoard.module.css';
 import useInput from '../../hooks/use-input';
-import { LABEL_TYPES } from '../../../lib/kanban';
+import useLabel from '../../hooks/use-label';
 import { updateLabels } from '../../../store/kanban-actions';
 import { userActions } from '../../../store/user';
+import EditLabel from '../../../UI/Label/EditLabel';
+import { textNotEmpty } from '../../../lib/validators';
 
 function EditBoard() {
 	const [cookies] = useCookies(['t']);
 	const { t: token } = cookies;
 	const board = useSelector((state) => state.kanban);
-	const [labels, setLabels] = useState(board.labels);
 	const modalContext = useContext(ModalContext);
 	const dispatch = useDispatch();
 
@@ -33,16 +33,9 @@ function EditBoard() {
 		isValid: boardNameIsValid,
 		onChange: boardNameOnChange,
 		onBlur: boardNameOnBlur,
-	} = useInput((value) => value.trim() !== '', board.name);
+	} = useInput(textNotEmpty, board.name);
 
-	const editLabelsHandler = (e, index) => {
-		const name = e.target.value;
-		if (name.trim() === labels[index]) return;
-		const newLabel = { ...labels[index], name: name };
-		const newLabels = [...labels];
-		newLabels.splice(index, 1, newLabel);
-		setLabels(newLabels);
-	};
+	const { labels, editLabels } = useLabel(board.labels);
 
 	const confirmChangeHandler = () => {
 		if (!boardNameIsValid) return;
@@ -75,22 +68,6 @@ function EditBoard() {
 		//  Add a success banner ?
 	};
 
-	const renderLabels = LABEL_TYPES.map((label, index) => {
-		let found = labels.find((l) => l.type === label) || {
-			name: '',
-		};
-		return (
-			<div className="d-flex flex-row align-items-center" key={label}>
-				<Badge className={`bg-${label} p-3`}> </Badge>
-				<Input
-					type="text"
-					onBlur={(e) => editLabelsHandler(e, index)}
-					defaultValue={found.name}
-				/>
-			</div>
-		);
-	});
-
 	return (
 		<Modal
 			isOpen={modalContext.isVisible}
@@ -114,14 +91,13 @@ function EditBoard() {
 						onBlur={boardNameOnBlur}
 					/>
 					<Label for="labels">Labels</Label>
-					{renderLabels}
+					<EditLabel labels={labels} onEdit={editLabels} />
 				</Form>
 			</ModalBody>
 			<ModalFooter>
 				<Button color="success" onClick={confirmChangeHandler}>
 					Confirm Changes
 				</Button>
-				{/* <Button color="danger">Delete Board</Button> */}
 				<Button outline onClick={modalContext.hideModal}>
 					Close
 				</Button>

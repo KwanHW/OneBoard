@@ -3,68 +3,49 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Card, CardHeader, CardFooter } from 'reactstrap';
 import Task from './Task';
-import AddTask from './Add/AddTask';
+import AddData from './Add/AddData';
 import EditColumn from './Edit/EditColumn';
 import styles from './Column.module.css';
+import { TYPES } from '../../store/kanban-actions';
 
 function Column(props) {
-	const { boardId, column, index: colIndex } = props;
+	const { column, index: colIndex } = props;
 	const { name, tasks, _id: columnId } = column;
-	const [isEditingTask, setIsEditingTask] = useState(false);
-	const [editTitle, setIsEditTitle] = useState(false);
+	const [isEditTask, setIsEditTask] = useState(false);
+	const [isEditTitle, setIsEditTitle] = useState(false);
 
-	const addTaskHandler = () => {
-		setIsEditingTask(true);
+	const toggleTaskHandler = () => {
+		setIsEditTask(!isEditTask);
 	};
 
-	const cancelTaskHandler = () => {
-		setIsEditingTask(false);
+	const toggleTitleHandler = () => {
+		setIsEditTitle(!isEditTitle);
 	};
 
-	const editTitleHandler = () => {
-		setIsEditTitle(true);
-	};
-
-	const cancelTitleHandler = () => {
-		setIsEditTitle(false);
-	};
-
-	const renderTasks = tasks.map((task, index) => (
-		<Task
-			key={task._id}
-			task={task}
-			index={index}
-			// id={task._id}
-			boardId={boardId}
-			colId={columnId}
-			columnTitle={name}
-		/>
-	));
-
-	const renderAddTask = isEditingTask ? (
+	const renderAddTask = isEditTask ? (
 		<CardFooter>
-			<AddTask
-				boardId={boardId}
-				columnId={columnId}
-				onCancel={cancelTaskHandler}
-				next={tasks.length}
+			<AddData
+				id={columnId}
+				onCancel={toggleTaskHandler}
+				order={tasks.length}
+				type={TYPES.TASK}
 			/>
 		</CardFooter>
 	) : (
-		<div className={styles.addTaskBtn} onClick={addTaskHandler}>
+		<div className={styles.addTaskBtn} onClick={toggleTaskHandler}>
 			<AiOutlinePlus className={styles.addTaskIcon} />
 			<p>Add a task</p>
 		</div>
 	);
 
-	const renderEditCol = editTitle ? (
+	const renderEditCol = isEditTitle ? (
 		<EditColumn
 			title={name}
-			onCancel={cancelTitleHandler}
+			onCancel={toggleTitleHandler}
 			column={column}
 		/>
 	) : (
-		<h4 className={styles.titleText} onClick={editTitleHandler}>
+		<h4 className={styles.titleText} onClick={toggleTitleHandler}>
 			{name}
 		</h4>
 	);
@@ -89,8 +70,9 @@ function Column(props) {
 								<TaskList
 									{...provided.droppableProps}
 									innerRef={provided.innerRef}
+									tasks={tasks}
+									columnTitle={name}
 								>
-									{renderTasks}
 									{provided.placeholder}
 								</TaskList>
 								{renderAddTask}
@@ -104,12 +86,22 @@ function Column(props) {
 }
 
 const TaskList = (props) => {
+	const renderTasks = props.tasks.map((task, index) => (
+		<Task
+			key={task._id}
+			task={task}
+			index={index}
+			columnTitle={props.columnTitle}
+		/>
+	));
+
 	return (
 		<div
 			ref={props.innerRef}
 			className={styles.taskList}
 			{...props.dragHandle}
 		>
+			{renderTasks}
 			{props.children}
 		</div>
 	);

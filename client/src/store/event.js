@@ -10,6 +10,7 @@ const eventSlice = createSlice({
 		},
 		updateEvent(state, action) {
 			const newEvent = action.payload;
+			console.log(newEvent);
 			return state.map((event) =>
 				newEvent._id === event._id ? newEvent : event
 			);

@@ -95,7 +95,7 @@ export default function Register() {
 				const { data } = loginResponse;
 				const id = data.user._id;
 				const token = data.token;
-				const userData = await dispatch(fetchUserData(id, token));
+				const userData = await dispatch(fetchUserData(token));
 				if (userData.isSuccess) {
 					localStorage.setItem('id', id);
 					authContext.login(token);
@@ -141,8 +141,9 @@ export default function Register() {
 							value={fName}
 							valid={fNameIsValid}
 							invalid={fNameHasError}
+							data-testid="fName"
 						/>
-						<FormFeedback invalid>
+						<FormFeedback invalid="true">
 							First name should not be empty
 						</FormFeedback>
 					</FormGroup>
@@ -156,8 +157,9 @@ export default function Register() {
 							value={lName}
 							valid={lNameIsValid}
 							invalid={lNameHasError}
+							data-testid="lName"
 						/>
-						<FormFeedback invalid>
+						<FormFeedback invalid="true">
 							Last name should not be empty
 						</FormFeedback>
 					</FormGroup>
@@ -174,8 +176,9 @@ export default function Register() {
 							value={email}
 							valid={emailIsValid}
 							invalid={emailHasError}
+							data-testid="email"
 						/>
-						<FormFeedback invalid>
+						<FormFeedback invalid="true">
 							Please enter a valid E-mail
 						</FormFeedback>
 					</FormGroup>
@@ -192,9 +195,10 @@ export default function Register() {
 							value={password}
 							valid={pwIsValid}
 							invalid={pwHasError}
+							data-testid="password"
 						/>
-						<FormFeedback invalid>
-							Please enter your password.
+						<FormFeedback invalid="true">
+							Please enter your password
 						</FormFeedback>
 					</FormGroup>
 					<FormGroup className="col">
@@ -207,9 +211,10 @@ export default function Register() {
 							value={cfmPassword}
 							valid={cfmPwIsValid}
 							invalid={cfmPwHasError}
+							data-testid="cfmPW"
 						/>
-						<FormFeedback invalid>
-							Confirmed password does not match.
+						<FormFeedback invalid="true">
+							Confirmed password does not match
 						</FormFeedback>
 					</FormGroup>
 				</div>
