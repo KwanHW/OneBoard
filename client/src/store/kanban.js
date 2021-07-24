@@ -78,6 +78,7 @@ const kanbanSlice = createSlice({
 			);
 		},
 		// * Board
+		// Why need 2 here?
 		updateBoard(state, action) {
 			const newBoard = action.payload;
 			return { ...state, ...newBoard };
@@ -87,6 +88,7 @@ const kanbanSlice = createSlice({
 			state.name = name;
 			state.labels = labels;
 		},
+		// To remove?
 		store(state) {
 			localStorage.setItem('currentBoard', JSON.stringify(state));
 		},

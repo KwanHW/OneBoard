@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import { useCookies } from 'react-cookie';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import useInput from '../hooks/use-input';
 import useError from '../hooks/use-error';
 import { updateName } from '../../store/user-actions';
@@ -116,7 +117,15 @@ function ChangeInfo() {
 					<Button type="submit" color="success">
 						Update Information
 					</Button>
-					<Button outline>Go back</Button>
+					<Link
+						to="/"
+						style={{
+							textDecoration: 'none',
+							color: 'inherit',
+						}}
+					>
+						<Button outline>Go back</Button>
+					</Link>
 				</div>
 			</Form>
 		</React.Fragment>

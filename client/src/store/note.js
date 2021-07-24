@@ -21,10 +21,8 @@ const noteSlice = createSlice({
 			const id = action.payload;
 			if (state.notes.length === 1) state.isEmpty = true;
 			state.notes = state.notes.filter((note) => note._id !== id);
-			console.log(state.notes);
 		},
 		replace(state, action) {
-			console.log('replace notes');
 			const notes = action.payload;
 			const isEmpty = notes.length === 0;
 			return { notes, isEmpty };

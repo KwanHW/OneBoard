@@ -39,7 +39,10 @@ const ExpenseTable = (props) => {
 				{expenses.length > 0 && <tbody>{expensesToRender}</tbody>}
 			</Table>
 			{expenses.length > 10 && (
-				<Pagination className="d-flex justify-content-center">
+				<Pagination
+					className="d-flex justify-content-center"
+					data-testid="pagination"
+				>
 					<PaginationItem disabled={currentPage === 0}>
 						<PaginationLink
 							onClick={() => {
@@ -58,9 +61,6 @@ const ExpenseTable = (props) => {
 						/>
 					</PaginationItem>
 				</Pagination>
-			)}
-			{expenses.length === 0 && (
-				<h4 className="text-center">No Expenses Found</h4>
 			)}
 		</React.Fragment>
 	);

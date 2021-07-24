@@ -72,7 +72,6 @@ export const fetchAllBoards = (token) => {
 			);
 			const boardToLoad = boards[boardKey];
 			dispatch(kanbanActions.replace(boardToLoad));
-			// localStorage.setItem('currentBoard', JSON.stringify(boardToLoad));
 		} catch (error) {
 			console.warn(error.message);
 		}
@@ -99,7 +98,6 @@ export const fetchBoard = (token, boardId) => {
 				columns: newColumns,
 			};
 			dispatch(kanbanActions.replace(newBoard));
-			// localStorage.setItem('currentBoard', JSON.stringify(newBoard));
 		} catch (error) {
 			console.warn(error.message);
 		}
@@ -136,6 +134,7 @@ export const addData = (token, type, dataReq, id = '') => {
 			);
 			switch (type) {
 				case TYPES.TASK:
+					// ! Check add data here
 					dispatch(kanbanActions.addTask({ task: response, id }));
 					break;
 				case TYPES.COLUMN:

@@ -22,6 +22,7 @@ export const getRequest = async (token, url) => {
 		method: 'GET',
 		headers: {
 			Authorization: `Bearer ${token}`,
+			'Content-Type': 'application/json',
 		},
 	});
 

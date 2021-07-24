@@ -127,7 +127,7 @@ function TaskModal(props) {
 			label: labelSelect,
 		};
 
-		console.log(updatedTask);
+		// console.log(updatedTask);
 		dispatch(updateData(token, TYPES.TASK, updatedTask, task._id));
 		setBeforeChange(updatedTask);
 		changeMessage('Update success.');

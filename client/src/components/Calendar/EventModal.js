@@ -36,7 +36,7 @@ function EventModal(props) {
 			case 'Delete':
 				return <DeleteEvent event={event} />;
 			default:
-				return 'Error!';
+				return <p>Error!</p>;
 		}
 	};
 
@@ -67,10 +67,12 @@ function EventModal(props) {
 			isOpen={modalContext.isVisible}
 			toggle={modalContext.hideModal}
 			className={`my-1 ${styles.modal}`}
+			data-testid="modal"
 		>
 			<AiOutlineClose
 				onClick={modalContext.hideModal}
 				className={`${styles.close} me-3 mt-3`}
+				data-testid="close"
 			/>
 			<ModalHeader tag="h3">
 				{modalType !== 'Add' && renderFeatured} {renderHeader}

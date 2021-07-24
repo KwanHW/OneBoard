@@ -10,10 +10,11 @@ import {
 	Label,
 	Input,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import useInput from '../hooks/use-input';
 import useError from '../hooks/use-error';
 import { updatePassword } from '../../store/user-actions';
-import { textNotEmpty } from '../../lib/validators';
+import { textNotEmpty, validPW } from '../../lib/validators';
 
 function ChangePassword(props) {
 	const dispatch = useDispatch();
@@ -36,7 +37,7 @@ function ChangePassword(props) {
 		onBlur: newPWOnBlur,
 		onChange: newPWOnChange,
 		reset: newPWReset,
-	} = useInput((value) => textNotEmpty(value) && value !== currentPassword);
+	} = useInput((value) => validPW(value) && value !== currentPassword);
 
 	const {
 		value: cfmPassword,
@@ -49,7 +50,7 @@ function ChangePassword(props) {
 
 	const { error, errorMsg, changeMessage } = useError();
 
-	const onSubmitHandler = (e) => {
+	const onSubmitHandler = async (e) => {
 		e.preventDefault();
 		if (!(currentPWValid && newPWValid && cfmPWValid)) {
 			setIsSuccess(false);
@@ -61,12 +62,17 @@ function ChangePassword(props) {
 			oldPassword: currentPassword,
 			newPassword: cfmPassword,
 		};
-		dispatch(updatePassword(token, newPW));
+		const response = await dispatch(updatePassword(token, newPW));
+		if (response) {
+			setIsSuccess(false);
+			changeMessage(response);
+		} else {
+			setIsSuccess(true);
+			changeMessage('Password Updated');
+		}
 		currentPWReset();
 		newPWReset();
 		cfmPWReset();
-		setIsSuccess(true);
-		changeMessage('Password Updated');
 	};
 
 	return (
@@ -91,6 +97,7 @@ function ChangePassword(props) {
 						onChange={currentPWOnChange}
 						value={currentPassword}
 						invalid={currentPWHasError}
+						data-testid="currentPW"
 					/>
 					<FormFeedback invalid>
 						Please ensure field is not empty.
@@ -106,6 +113,7 @@ function ChangePassword(props) {
 						onChange={newPWOnChange}
 						value={newPassword}
 						invalid={newPWHasError}
+						data-testid="newPW"
 					/>
 					<FormFeedback invalid>
 						Please ensure field is not empty.
@@ -121,6 +129,7 @@ function ChangePassword(props) {
 						onChange={cfmPWOnChange}
 						value={cfmPassword}
 						invalid={cfmPWHasError}
+						data-testid="cfmPW"
 					/>
 					<FormFeedback invalid>
 						Please ensure field is not empty and matches with New
@@ -128,10 +137,22 @@ function ChangePassword(props) {
 					</FormFeedback>
 				</FormGroup>
 				<div className="mt-4">
-					<Button type="submit" color="success">
+					<Button
+						type="submit"
+						color="success"
+						data-testid="submitBtn"
+					>
 						Change Password
 					</Button>
-					<Button outline>Go back</Button>
+					<Link
+						to="/"
+						style={{
+							textDecoration: 'none',
+							color: 'inherit',
+						}}
+					>
+						<Button outline>Go back</Button>
+					</Link>
 				</div>
 			</Form>
 		</React.Fragment>

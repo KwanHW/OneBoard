@@ -1,9 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
-import { Alert, Button, UncontrolledTooltip } from 'reactstrap';
+import {
+	Alert,
+	Button,
+	UncontrolledTooltip,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+} from 'reactstrap';
 import { AiOutlineClose } from 'react-icons/ai';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import ModalContext from '../../../store/ModalContext';
 import styles from '../DeleteExpense.module.css';
 import { bulkAddExpense } from '../../../store/expense-action';

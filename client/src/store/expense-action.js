@@ -67,7 +67,7 @@ export const bulkAddExpense = (token, file) => {
 			return data;
 		};
 		try {
-			console.log('Uploading');
+			// console.log('Uploading');
 			const response = await bulkReq();
 			// console.log(response);
 			const expenses = response.map((expense) => createExpense(expense));

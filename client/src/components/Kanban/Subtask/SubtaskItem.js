@@ -1,8 +1,6 @@
 import { useRef, useState } from 'react';
-// import { useDispatch } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
 import { ListGroupItem, Input } from 'reactstrap';
-// import { kanbanActions } from '../../../../store/kanban';
 
 const SubtaskItem = (props) => {
 	const { subtask, index, onUpdate } = props;

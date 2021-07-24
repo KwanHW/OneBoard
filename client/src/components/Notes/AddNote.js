@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { Form, Label, Input, Button } from 'reactstrap';
 import useInput from '../hooks/use-input';
+import { textNotEmpty } from '../../lib/validators';
 import { addNote } from '../../store/note-actions';
 
 function AddNote(props) {
@@ -15,7 +16,7 @@ function AddNote(props) {
 		onChange: nameOnChange,
 		onBlur: nameOnBlur,
 		reset: nameReset,
-	} = useInput((value) => value.trim() !== '', '');
+	} = useInput(textNotEmpty, '');
 	const descRef = useRef();
 
 	const addHandler = () => {

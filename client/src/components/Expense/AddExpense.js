@@ -57,7 +57,7 @@ function AddExpense(props) {
 		onChange: amountOnChange,
 		onBlur: amountOnBlur,
 		reset: amountReset,
-	} = useInput(isNumeric, 0.0);
+	} = useInput((value) => isNumeric(value) && +value >= 1, 0.0);
 	const [label, setLabels] = useState([]);
 
 	const addExpenseHandler = () => {
@@ -113,15 +113,17 @@ function AddExpense(props) {
 						<Input
 							id="amount"
 							type="number"
-							min="0.00"
+							min="1.00"
 							value={amount}
 							onChange={amountOnChange}
 							onBlur={amountOnBlur}
 							placeholder="Enter amount"
 							invalid={amountHasError}
 						/>
+						<FormFeedback invalid>
+							Please ensure amount is valid
+						</FormFeedback>
 					</InputGroup>
-					<FormFeedback>Please ensure amount is valid</FormFeedback>
 				</FormGroup>
 
 				{/* Date of transaction */}
@@ -143,6 +145,7 @@ function AddExpense(props) {
 						className="w-100"
 						onChange={(value) => setLabels(value)}
 						labelSrc={expenseLabels}
+						value={label}
 					/>
 				</div>
 

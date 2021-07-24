@@ -1,16 +1,13 @@
 import React from 'react';
-// import { useDispatch } from 'react-redux';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import useInput from '../../hooks/use-input';
 
 function AddSubtask(props) {
 	const { addSubtask } = props;
-	// const dispatch = useDispatch();
 
 	const {
 		value: title,
 		isValid: titleIsValid,
-		// hasError: titleHasError,
 		onChange: titleOnChange,
 		onBlur: titleOnBlur,
 		reset: titleReset,

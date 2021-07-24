@@ -108,6 +108,7 @@ function ManageBoard(props) {
 					innerRef={selectBoardRef}
 					onChange={boardSelectChangeHandler}
 					className="w-25"
+					data-testid="selectBoard"
 				>
 					{renderOptions}
 				</Input>

@@ -88,6 +88,7 @@ function FilterExpense(props) {
 		filterReset();
 		setChecked({ name: true, description: true });
 		setLabelSelect([]);
+		setDateSelect(null);
 	};
 
 	return (
@@ -141,10 +142,10 @@ function FilterExpense(props) {
 			<RangePicker
 				className="w-50"
 				onChange={(date) => {
-					// console.log(date);
 					setDateSelect(date);
 				}}
 				format={DATE_FORMAT}
+				value={dateSelect}
 				allowClear
 			/>
 			<Button onClick={resetHandler} className="mx-2">

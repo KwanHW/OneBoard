@@ -36,14 +36,14 @@ function NotesList(props) {
 	});
 
 	return (
-		<React.Fragment>
-			<div className="col-3">
+		<div className="d-flex justify-content-center">
+			<div className="col-4">
 				<ListGroup className={styles.noteList}>{renderNotes}</ListGroup>
 			</div>
 			<div className="col-8 border p-4">
 				<NoteContent note={selectedNote} onEdit={onEdit} />
 			</div>
-		</React.Fragment>
+		</div>
 	);
 }
 

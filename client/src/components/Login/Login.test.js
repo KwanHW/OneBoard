@@ -5,7 +5,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../../store/index';
 import Login from './Login';
-// import reducer, { userActions } from '../../store/user';
 
 const LoginComponent = (
 	<Router>
@@ -59,53 +58,52 @@ describe('Login Component', () => {
 		await waitFor(() => screen.queryByText('Incorrect e-mail or password'));
 	});
 
-	// Not sure if this is a good test
-	// test('Login valid', async () => {
-	// 	window.fetch = jest
-	// 		.fn()
-	// 		// Login Request
-	// 		.mockResolvedValueOnce({
-	// 			token: 'aToken',
-	// 			user: {
-	// 				_id: '60d6e69456a1e841a2fd00e6',
-	// 				username: 'jdoe@gmail.com',
-	// 				role: 0,
-	// 			},
-	// 		})
-	// 		// Fetch user data request
-	// 		.mockResolvedValueOnce({
-	// 			user: {
-	// 				role: 0,
-	// 				verified: false,
-	// 				history: [],
-	// 				boards: [],
-	// 				notes: [],
-	// 				events: [],
-	// 				_id: '60d6e69456a1e841a2fd00e6',
-	// 				username: 'jdoe@gmail.com',
-	// 				firstName: 'John',
-	// 				lastName: 'Pasta',
-	// 				createdAt: '2021-06-26T08:34:28.527Z',
-	// 				updatedAt: '2021-06-29T11:58:22.993Z',
-	// 				__v: 0,
-	// 				featured: '60d7257600d53f1af7b40e17',
-	// 			},
-	// 		});
+	test('Integration - Login valid', async () => {
+		window.fetch = jest
+			.fn()
+			// Login Request
+			.mockResolvedValueOnce({
+				token: 'aToken',
+				user: {
+					_id: '60d6e69456a1e841a2fd00e6',
+					username: 'jdoe@gmail.com',
+					role: 0,
+				},
+			})
+			// Fetch user data request
+			.mockResolvedValueOnce({
+				user: {
+					role: 0,
+					verified: false,
+					history: [],
+					boards: [],
+					notes: [],
+					events: [],
+					_id: '60d6e69456a1e841a2fd00e6',
+					username: 'jdoe@gmail.com',
+					firstName: 'John',
+					lastName: 'Pasta',
+					createdAt: '2021-06-26T08:34:28.527Z',
+					updatedAt: '2021-06-29T11:58:22.993Z',
+					__v: 0,
+					featured: '60d7257600d53f1af7b40e17',
+				},
+			});
 
-	// 	render(LoginComponent);
-	// 	const emailField = screen.getByTestId('email');
-	// 	userEvent.type(emailField, 'testabc@gmail.com');
-	// 	const passwordField = screen.getByTestId('password');
-	// 	userEvent.type(passwordField, 'text');
+		render(LoginComponent);
+		const emailField = screen.getByTestId('email');
+		userEvent.type(emailField, 'testabc@gmail.com');
+		const passwordField = screen.getByTestId('password');
+		userEvent.type(passwordField, 'text');
 
-	// 	const loginButton = screen.getByRole('button');
-	// 	userEvent.click(loginButton);
-	// 	await waitFor(
-	// 		() =>
-	// 			expect(screen.queryByText('Incorrect e-mail or password')).not
-	// 				.toBeInTheDocument
-	// 	);
-	// });
+		const loginButton = screen.getByRole('button');
+		userEvent.click(loginButton);
+		await waitFor(
+			() =>
+				expect(screen.queryByText('Incorrect e-mail or password')).not
+					.toBeInTheDocument
+		);
+	});
 });
 
 describe('E-mail Input Field', () => {

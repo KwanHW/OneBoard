@@ -13,7 +13,7 @@ import { Link, useHistory } from 'react-router-dom';
 import styles from './LoginCommon.module.css';
 import LoginPage from './LoginPage';
 import useInput from '../hooks/use-input';
-import { isEmail, textNotEmpty } from '../../lib/validators';
+import { isEmail, textNotEmpty, validPW } from '../../lib/validators';
 import useError from '../hooks/use-error';
 import { register, login, fetchUserData } from '../../store/user-actions';
 import AuthContext from '../../store/AuthContext';
@@ -55,7 +55,7 @@ export default function Register() {
 		hasError: pwHasError,
 		onChange: pwOnChange,
 		onBlur: pwOnBlur,
-	} = useInput(textNotEmpty);
+	} = useInput(validPW);
 
 	const {
 		value: cfmPassword,
@@ -198,7 +198,8 @@ export default function Register() {
 							data-testid="password"
 						/>
 						<FormFeedback invalid="true">
-							Please enter your password
+							The password must be least 8 characters and contain
+							a number.
 						</FormFeedback>
 					</FormGroup>
 					<FormGroup className="col">
@@ -214,7 +215,7 @@ export default function Register() {
 							data-testid="cfmPW"
 						/>
 						<FormFeedback invalid="true">
-							Confirmed password does not match
+							Ensure both passwords are the same.
 						</FormFeedback>
 					</FormGroup>
 				</div>

@@ -35,7 +35,7 @@ function Board(props) {
 		}
 
 		boardFromStorage();
-		return () => {};
+		// return () => {};
 	}, [dispatch, token, currentId]);
 
 	const dragEndHandler = (result) => {

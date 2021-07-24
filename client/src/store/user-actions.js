@@ -25,7 +25,6 @@ export const login = (userData) => {
 			const loginResponse = await loginData();
 			return { status: true, data: loginResponse };
 		} catch (error) {
-			console.log(error);
 			return { status: false, message: 'Incorrect e-mail or password' };
 		}
 	};
@@ -66,7 +65,7 @@ export const fetchUserData = (token) => {
 					firstName: userData.user.firstName,
 					lastName: userData.user.lastName,
 					email: userData.user.username,
-					boards: userData.user.boards,
+					// boards: userData.user.boards,
 					featured: userData.user.featured,
 				})
 			);
@@ -135,7 +134,10 @@ export const updatePassword = (token, userPW) => {
 
 		try {
 			// const response = await updateData();
-			postRequest(token, '/api/user/pass', userPW);
-		} catch (error) {}
+			await postRequest(token, '/api/user/pass', userPW);
+			return '';
+		} catch (error) {
+			return 'Wrong password.';
+		}
 	};
 };

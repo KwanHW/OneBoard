@@ -10,7 +10,7 @@ const eventSlice = createSlice({
 		},
 		updateEvent(state, action) {
 			const newEvent = action.payload;
-			console.log(newEvent);
+			// console.log(newEvent);
 			return state.map((event) =>
 				newEvent._id === event._id ? newEvent : event
 			);
@@ -22,6 +22,7 @@ const eventSlice = createSlice({
 		replace(state, action) {
 			return action.payload;
 		},
+		// ? Can be deleted?
 		store(state) {
 			localStorage.setItem('event', JSON.stringify(state));
 		},

@@ -23,7 +23,6 @@ import useError from '../hooks/use-error';
 import { FormGroup } from 'reactstrap';
 import { durationIsSame, initializeEvent } from '../../lib/event';
 
-// TODO Add Error Banner
 function EditEvent(props) {
 	const { event, addStart } = props;
 	const dispatch = useDispatch();
@@ -122,17 +121,17 @@ function EditEvent(props) {
 	return (
 		<React.Fragment>
 			<ModalBody>
+				<Alert
+					color="danger"
+					isOpen={error}
+					toggle={() => {
+						changeMessage('');
+					}}
+				>
+					{errorMsg}
+				</Alert>
 				<Form>
 					<FormGroup className="mb-2">
-						<Alert
-							color="danger"
-							isOpen={error}
-							toggle={() => {
-								changeMessage('');
-							}}
-						>
-							{errorMsg}
-						</Alert>
 						<Label for="title">Title</Label>
 						<Input
 							type="text"
@@ -144,7 +143,7 @@ function EditEvent(props) {
 							onBlur={titleOnBlur}
 							invalid={titleHasError}
 						/>
-						<FormFeedback invalid>
+						<FormFeedback invalid="true">
 							Title cannot be empty.
 						</FormFeedback>
 					</FormGroup>
@@ -186,7 +185,6 @@ function EditEvent(props) {
 							<HiLocationMarker />
 							Location
 						</Label>
-						{console.log(initEvent)}
 						<Input
 							type="text"
 							id="place"

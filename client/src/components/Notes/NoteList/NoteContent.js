@@ -4,6 +4,7 @@ import DeleteNote from '..//DeleteNote';
 import EditNote from '../EditNote';
 import ModalContext from '../../../store/ModalContext';
 import styles from './NoteContent.module.css';
+import { Button } from 'reactstrap';
 
 const NoteContent = (props) => {
 	const { note, onEdit } = props;
@@ -61,12 +62,14 @@ const NoteContent = (props) => {
 				{titleComponent}
 				{descriptionComponent}
 			</div>
-			<FaTrash
+			<Button
+				color="danger"
 				onClick={() => {
 					modalContext.showModal(<DeleteNote note={note} />);
 				}}
-				className={styles.delete}
-			/>
+			>
+				<FaTrash /> Delete Note
+			</Button>
 		</div>
 	);
 };

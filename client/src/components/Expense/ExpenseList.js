@@ -9,7 +9,6 @@ function ExpenseList(props) {
 
 	return (
 		<div>
-			{/* For now written like this, will be generalised to kanban */}
 			<FilterExpense
 				allExpenses={expense}
 				filterResults={setFilteredExpenses}

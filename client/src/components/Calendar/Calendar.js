@@ -32,9 +32,7 @@ function Calendar() {
 			const parsedEvents = JSON.parse(stringEvents);
 			// * This is causing events to collapse on its own
 			if (parsedEvents) {
-				// console.log(parsedEvents);
 				if (parsedEvents.length !== 0) {
-					// console.log('Mount from storage');
 					dispatch(eventActions.replace(parsedEvents));
 					return;
 				}

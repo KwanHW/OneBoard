@@ -36,6 +36,7 @@ const expenseSlice = createSlice({
 		},
 		replace(state, action) {
 			const { type, expenses, labels } = action.payload;
+			// console.log(type, expenses, labels);
 			switch (type) {
 				case 'expenses':
 					state.expense = expenses.sort(sortByDate);
@@ -44,9 +45,10 @@ const expenseSlice = createSlice({
 					state.labels = labels;
 					return;
 				default:
-					return { expense: expenses, labels };
+					return state;
 			}
 		},
+		// Probably not needed
 		store(state) {
 			// Requires date to be converted (see event.js)
 			const storeExpense = state.expense.map((expense) => {
