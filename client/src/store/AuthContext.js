@@ -9,6 +9,8 @@ const AuthContext = React.createContext({
 });
 
 let cookieExpiry;
+const timeToExpire = 3600000;
+// const timeToExpire = 30000;
 
 export const AuthContextProvider = (props) => {
 	// eslint-disable-next-line
@@ -18,12 +20,22 @@ export const AuthContextProvider = (props) => {
 
 	const loginHandler = (token) => {
 		setToken(token);
-		cookieExpiry = setTimeout(logoutHandler, 3600000);
+		const storageExpire = Number(localStorage.getItem('expire'));
+		if (storageExpire !== 0) {
+			const timeLeft = storageExpire - new Date().valueOf();
+			console.log(timeLeft);
+			cookieExpiry = setTimeout(logoutHandler, timeLeft);
+			return;
+		}
+
+		localStorage.setItem('expire', new Date().valueOf() + timeToExpire);
+		cookieExpiry = setTimeout(logoutHandler, timeToExpire);
 	};
 
 	const logoutHandler = () => {
 		removeCookie('t');
 		setToken('');
+		localStorage.clear();
 		clearTimeout(cookieExpiry);
 	};
 

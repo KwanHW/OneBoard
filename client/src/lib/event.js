@@ -20,7 +20,9 @@ export function convertToDate(event) {
 }
 
 export function initializeEvent(event, addStart) {
-	const isAdd = event ? true : false;
+	const isAdd = event ? false : true;
+	console.log(event);
+	console.log(isAdd);
 	const title = event ? event.title : '';
 	const dateTime = event
 		? [moment(event.start), moment(event.end)]

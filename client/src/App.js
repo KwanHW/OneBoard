@@ -30,14 +30,8 @@ function App() {
 	const isLoggedIn = authContext.isLoggedIn;
 
 	useEffect(() => {
-		if (token) {
-			authContext.login(token);
-			dispatch(fetchUserData(token));
-		}
-	}, []);
-
-	useEffect(() => {
-		if (!isLoggedIn && !token) {
+		const cookieExpires = Number(localStorage.getItem('expire'));
+		if (cookieExpires === 0) {
 			dispatch(userActions.logout());
 			dispatch(kanbanActions.clear());
 			dispatch(noteActions.clear());
@@ -45,6 +39,29 @@ function App() {
 			dispatch(expenseActions.clear());
 			modalContext.hideModal();
 			localStorage.clear();
+			return;
+		}
+
+		if (token && cookieExpires > new Date().valueOf()) {
+			authContext.login(token);
+			dispatch(fetchUserData(token));
+			return;
+		}
+	}, []);
+
+	useEffect(() => {
+		function clearAll() {
+			dispatch(userActions.logout());
+			dispatch(kanbanActions.clear());
+			dispatch(noteActions.clear());
+			dispatch(eventActions.clear());
+			dispatch(expenseActions.clear());
+			modalContext.hideModal();
+			localStorage.clear();
+		}
+
+		if (!isLoggedIn && !token) {
+			clearAll();
 		}
 	}, [dispatch, isLoggedIn, token]);
 

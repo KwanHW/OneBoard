@@ -57,7 +57,7 @@ const NoteContent = (props) => {
 		: toAddDescription;
 
 	return (
-		<div className="h-100">
+		<div className="h-100 pb-3">
 			<div className={styles.noteContent}>
 				{titleComponent}
 				{descriptionComponent}
