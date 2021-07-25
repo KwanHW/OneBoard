@@ -1,7 +1,14 @@
 export function createExpense(data) {
 	const { _id, name, description, date, amount, label } = data;
 	const newDesc = description ? description : '';
-	return { _id, name, description: newDesc, date, amount, label };
+	return {
+		_id,
+		name,
+		description: newDesc,
+		date,
+		amount: amount / 100,
+		label,
+	};
 }
 
 export function sortByDate(expA, expB) {

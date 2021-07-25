@@ -16,9 +16,12 @@ const EditNote = (props) => {
 			return;
 		}
 
-		let newNote;
-		if (isTitle) newNote = { ...note, name: newData };
-		else newNote = { ...note, description: newData };
+		// let newNote;
+		// if (isTitle) newNote = { ...note, name: newData };
+		// else newNote = { ...note, description: newData };
+		const newNote = isTitle
+			? { ...note, name: newData }
+			: { ...note, description: newData };
 		dispatch(updateNote(token, note._id, newNote));
 		onEdit(newNote);
 		onCancel();

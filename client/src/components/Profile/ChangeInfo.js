@@ -15,6 +15,7 @@ import useInput from '../hooks/use-input';
 import useError from '../hooks/use-error';
 import { updateName } from '../../store/user-actions';
 import { textNotEmpty } from '../../lib/validators';
+import styles from './ProfileChange.module.css';
 
 function ChangeInfo() {
 	const dispatch = useDispatch();
@@ -117,13 +118,7 @@ function ChangeInfo() {
 					<Button type="submit" color="success">
 						Update Information
 					</Button>
-					<Link
-						to="/"
-						style={{
-							textDecoration: 'none',
-							color: 'inherit',
-						}}
-					>
+					<Link to="/" className={styles.link}>
 						<Button outline>Go back</Button>
 					</Link>
 				</div>

@@ -22,8 +22,6 @@ export default function Register() {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const authContext = useContext(AuthContext);
-	const [isChecked, setIsChecked] = useState(false);
-	const [checkIsTouched, setIsTouched] = useState(false);
 
 	const {
 		value: fName,
@@ -75,8 +73,7 @@ export default function Register() {
 				lNameIsValid &&
 				emailIsValid &&
 				pwIsValid &&
-				cfmPwIsValid &&
-				isChecked
+				cfmPwIsValid
 			)
 		) {
 			changeMessage('Please check if all fields are valid.');
@@ -113,16 +110,16 @@ export default function Register() {
 		return;
 	};
 
-	const toggleCheckHandler = (e) => {
-		setIsChecked(!isChecked);
-		setIsTouched(true);
-	};
+	// const toggleCheckHandler = (e) => {
+	// 	setIsChecked(!isChecked);
+	// 	setIsTouched(true);
+	// };
 
 	return (
 		<LoginPage title="Register">
 			<Alert
 				color="danger"
-				className="w-25"
+				className="w-50"
 				isOpen={error}
 				toggle={() => changeError(!error)}
 				fade={false}
@@ -198,8 +195,8 @@ export default function Register() {
 							data-testid="password"
 						/>
 						<FormFeedback invalid="true">
-							The password must be least 8 characters and contain
-							a number.
+							The password must be at least 8 characters and
+							contain a digit.
 						</FormFeedback>
 					</FormGroup>
 					<FormGroup className="col">
@@ -215,31 +212,11 @@ export default function Register() {
 							data-testid="cfmPW"
 						/>
 						<FormFeedback invalid="true">
-							Ensure both passwords are the same.
+							{cfmPassword.length < 8
+								? 'Ensure the password is at least 8 characters long and contain a digit.'
+								: 'Ensure both passwords are the same.'}
 						</FormFeedback>
 					</FormGroup>
-				</div>
-
-				<div
-					className={` ${styles.checkBox} ${
-						!isChecked && checkIsTouched ? styles.invalid : ''
-					}`}
-				>
-					<Input
-						type="checkbox"
-						name="toc"
-						id="toc"
-						checked={isChecked}
-						onChange={toggleCheckHandler}
-						style={{ fontSize: '20px' }}
-					/>
-					<Label
-						check
-						for="toc"
-						style={{ marginLeft: '15px', fontSize: '20px' }}
-					>
-						I agree to the terms of use
-					</Label>
 				</div>
 
 				<Button type="submit" color="primary" className="mt-4">

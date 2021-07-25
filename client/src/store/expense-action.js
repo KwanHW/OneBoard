@@ -58,21 +58,24 @@ export const bulkAddExpense = (token, file) => {
 				body: formdata,
 			});
 
-			if (!response.ok) {
-				throw new Error('Bulk Add failed');
-			}
-
 			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(
+					'Please check if your csv file is in the correct format'
+				);
+			}
 
 			return data;
 		};
 		try {
-			// console.log('Uploading');
 			const response = await bulkReq();
-			// console.log(response);
 			const expenses = response.map((expense) => createExpense(expense));
 			dispatch(expenseActions.bulkAddExpense(expenses));
-		} catch (error) {}
+			return '';
+		} catch (error) {
+			return error.message;
+		}
 	};
 };
 

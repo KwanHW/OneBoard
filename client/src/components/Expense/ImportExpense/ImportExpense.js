@@ -23,21 +23,34 @@ function BulkExpense() {
 	const [cookies] = useCookies(['t']);
 	const { t: token } = cookies;
 	const modalContext = useContext(ModalContext);
+	const [isSuccess, setIsSuccess] = useState(false);
 	const [fileToUpload, setFileToUpload] = useState(null);
 	const { error, errorMsg, changeError, changeMessage } = useError();
 
-	const { getRootProps, getInputProps } = useDropzone({
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		accept: '.csv',
 		onDropRejected: (file) => {
 			const errorMsg = file[0].errors[0].message;
+			setIsSuccess(false);
 			changeMessage(errorMsg);
 		},
-		onDropAccepted: (file) => setFileToUpload(file[0]),
+		onDropAccepted: (file) => {
+			setIsSuccess(true);
+			changeMessage('File loaded');
+			setFileToUpload(file[0]);
+		},
 	});
 
-	const importExpensesHandler = () => {
+	const importExpensesHandler = async () => {
 		if (!fileToUpload) return; // Set error message
-		dispatch(bulkAddExpense(token, fileToUpload));
+		const result = await dispatch(bulkAddExpense(token, fileToUpload));
+		if (!result) {
+			setIsSuccess(true);
+			changeMessage('CSV successfully uploaded');
+		} else {
+			setIsSuccess(false);
+			changeMessage(result);
+		}
 	};
 
 	return (
@@ -49,7 +62,7 @@ function BulkExpense() {
 			<ModalHeader>Import from csv</ModalHeader>
 			<ModalBody>
 				<Alert
-					color="danger"
+					color={isSuccess ? 'success' : 'danger'}
 					className="w-100"
 					isOpen={error}
 					toggle={() => {
@@ -59,15 +72,15 @@ function BulkExpense() {
 					{errorMsg}
 				</Alert>
 				<p>
-					Please ensure that the columns are in the following order
-					(hover to see supported date formats): Name,Description,
-					<span id="date-tooltip">Date</span>
+					Please ensure that the columns are in the following order :
+					Name,Description,
+					<u id="date-tooltip">Date</u>
 					,Amount
 				</p>
 				<UncontrolledTooltip placement="bottom" target="date-tooltip">
+					Supported Formats: <br />
 					YYYY-MM-DD or YYYY/MM/DD
 				</UncontrolledTooltip>
-				{/* <Input type="file" accept="csv" onChange={fileChangeHandler} /> */}
 				{fileToUpload && (
 					<p className="my-3">
 						{fileToUpload.name} ({fileToUpload.size} bytes)
@@ -75,11 +88,15 @@ function BulkExpense() {
 				)}
 				<div
 					{...getRootProps({
-						className: `${dropStyle.dropzone} mt-3`,
+						className: `${dropStyle.dropzone} mt-3 `,
 					})}
 				>
 					<input {...getInputProps()} />
-					<p>Drag and drop or click here to upload CSV.</p>
+					<p>
+						{isDragActive
+							? 'Drop the file here!'
+							: 'Drag and drop or click here to upload CSV.'}
+					</p>
 				</div>
 			</ModalBody>
 			<ModalFooter>

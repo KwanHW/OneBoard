@@ -58,10 +58,14 @@ function EditBoard() {
 			return;
 		}
 
-		let data = {};
-		if (labelChanged.length > 0)
-			data = { name: boardName, labels: labelChanged };
-		else data = { name: boardName };
+		const data =
+			labelChanged.length > 0
+				? { name: boardName, labels: labelChanged }
+				: { name: boardName };
+		// let data = {};
+		// if (labelChanged.length > 0)
+		// 	data = { name: boardName, labels: labelChanged };
+		// else data = { name: boardName };
 		dispatch(updateLabels(token, data, board.id));
 		dispatch(userActions.updateBoard({ _id: board.id, name: boardName }));
 		modalContext.hideModal();

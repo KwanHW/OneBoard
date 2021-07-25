@@ -15,6 +15,7 @@ import useInput from '../hooks/use-input';
 import useError from '../hooks/use-error';
 import { updatePassword } from '../../store/user-actions';
 import { textNotEmpty, validPW } from '../../lib/validators';
+import styles from './ProfileChange.module.css';
 
 function ChangePassword(props) {
 	const dispatch = useDispatch();
@@ -144,13 +145,7 @@ function ChangePassword(props) {
 					>
 						Change Password
 					</Button>
-					<Link
-						to="/"
-						style={{
-							textDecoration: 'none',
-							color: 'inherit',
-						}}
-					>
+					<Link to="/" className={styles.link}>
 						<Button outline>Go back</Button>
 					</Link>
 				</div>

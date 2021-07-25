@@ -19,12 +19,9 @@ const SubtaskItem = (props) => {
 	};
 
 	const onBlurHandler = () => {
-		let name;
-		if (subtaskRef.current) {
-			name = subtaskRef.current.value;
-		} else {
-			name = beforeChange.name;
-		}
+		const name = subtaskRef.current
+			? subtaskRef.current.value
+			: beforeChange.name;
 		const isDone = isDoneRef.current.checked;
 		if (name.trim() === '') {
 			setIsInvalid(true);

@@ -66,12 +66,12 @@ function AddExpense(props) {
 
 		if (!(nameIsValid && amountIsValid && date)) return;
 
-		const amountNumber = parseFloat(amount);
+		const amountFormat = parseFloat(amount).toFixed(2);
 
 		const expense = {
 			name,
 			date: dateToString,
-			amount: amountNumber,
+			amount: `$${amountFormat}`,
 			description,
 			label,
 		};

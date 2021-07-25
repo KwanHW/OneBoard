@@ -85,7 +85,7 @@ export default function Login(props) {
 			)}
 			<Alert
 				color="danger"
-				className="w-25"
+				className="w-50"
 				isOpen={error}
 				toggle={() => {
 					changeError(!error);

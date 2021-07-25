@@ -12,7 +12,7 @@ import {
 	DropdownItem,
 } from 'reactstrap';
 import { IconContext } from 'react-icons';
-import { FaUserCog } from 'react-icons/fa';
+import { FaTelegram, FaUserCog } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { MdFeedback } from 'react-icons/md';
 import AuthContext from '../store/AuthContext';
@@ -32,10 +32,13 @@ function MainLayout(props) {
 		return;
 	};
 
+	const telegramURL = `https://telegram.me/oneboard_bot?start=${btoa(
+		user.id
+	)}`;
+
 	return (
 		<React.Fragment>
 			<Navbar
-				// style={{ backgroundColor: '#458c7f' }}
 				color="light"
 				className="d-flex justify-content-between py-3 px-5 shadow-lg sticky-top"
 			>
@@ -90,6 +93,20 @@ function MainLayout(props) {
 								>
 									<MdFeedback />
 									Feedback
+								</a>
+							</DropdownItem>
+							<DropdownItem>
+								<a
+									href={telegramURL}
+									rel="noreferrer"
+									target="_blank"
+									style={{
+										textDecoration: 'none',
+										color: 'inherit',
+									}}
+								>
+									<FaTelegram />
+									Connect to Telegram
 								</a>
 							</DropdownItem>
 							<DropdownItem>

@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, { useEffect, useContext, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
+import { DatePicker } from 'antd';
 import { Calendar as Cal, momentLocalizer } from 'react-big-calendar';
 import EventModal from './EventModal';
 import { eventActions } from '../../store/event';
@@ -11,6 +12,7 @@ import { convertToDate, sameDateTime } from '../../lib/event';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { DATE_FORMAT } from '../../lib/validators';
 
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Cal);
@@ -90,23 +92,41 @@ function Calendar() {
 		setCalendar({ ...calendar, view });
 	};
 
+	const setDateFormat = {
+		picker: calendar.view === 'month' ? 'month' : 'date',
+		format: calendar.view === 'month' ? 'MMM YYYY' : DATE_FORMAT,
+	};
+
 	return (
-		<DnDCalendar
-			{...calendar}
-			onNavigate={dateChangeHandler}
-			onView={viewChangeHandler}
-			events={events}
-			localizer={localizer}
-			style={{ height: '55vh' }}
-			onEventDrop={eventDropHandler}
-			onEventResize={eventDropHandler}
-			onSelectSlot={addEventHandler}
-			onSelectEvent={viewEventHandler}
-			views={['month', 'day']}
-			resizable
-			selectable
-			popup
-		/>
+		<React.Fragment>
+			<div className="w-50 my-2">
+				<b>Jump to </b>
+				<DatePicker
+					{...setDateFormat}
+					value={moment(calendar.date)}
+					allowClear={false}
+					onChange={(date) => {
+						dateChangeHandler(date.toDate());
+					}}
+				/>
+			</div>
+			<DnDCalendar
+				{...calendar}
+				onNavigate={dateChangeHandler}
+				onView={viewChangeHandler}
+				events={events}
+				localizer={localizer}
+				style={{ height: '55vh' }}
+				onEventDrop={eventDropHandler}
+				onEventResize={eventDropHandler}
+				onSelectSlot={addEventHandler}
+				onSelectEvent={viewEventHandler}
+				views={['month', 'day']}
+				resizable
+				selectable
+				popup
+			/>
+		</React.Fragment>
 	);
 }
 

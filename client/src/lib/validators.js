@@ -15,4 +15,4 @@ export const isNumeric = (value) => {
 export const hasId = (value) => value._id;
 
 export const validPW = (value) =>
-	textNotEmpty(value) && value.length > 7 && /\w*\d\w*/.test(value);
+	textNotEmpty(value) && value.length > 7 && /\d/.test(value);

@@ -54,20 +54,18 @@ function TaskModal(props) {
 
 		let dateChanged = true;
 		let newExpiry;
-		if (deadline === null) {
-			// console.log('New deadline null, checking against old value');
-			dateChanged = !!beforeChange.expireAt;
-		} else {
-			// console.log('Deadline is a time, checking against old value');
-			dateChanged = !deadline.isSame(beforeChange.expireAt, 'day');
-		}
+		dateChanged =
+			deadline === null
+				? !!beforeChange.expireAt
+				: !deadline.isSame(beforeChange.expireAt, 'day');
 
 		if (dateChanged) {
-			if (deadline) newExpiry = deadline.toDate().toISOString();
-			else newExpiry = '';
+			newExpiry = deadline ? deadline.toDate().toISOString() : '';
 		} else {
-			if (beforeChange.expireAt === '') newExpiry = '';
-			else newExpiry = new Date(beforeChange.expireAt).toISOString();
+			newExpiry =
+				beforeChange.expireAt === ''
+					? ''
+					: new Date(beforeChange.expireAt).toISOString();
 		}
 
 		let labelsChanged = false;
