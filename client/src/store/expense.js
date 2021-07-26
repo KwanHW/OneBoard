@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { sortByDate } from '../lib/expense';
 
-const initialState = { expense: [], labels: [] };
+const initialState = { expense: [], labels: [], lastUpdate: '' };
 
 const expenseSlice = createSlice({
 	name: 'expense',
@@ -9,25 +9,35 @@ const expenseSlice = createSlice({
 	reducers: {
 		addExpense(state, action) {
 			const expense = action.payload;
+			const newUpdate = new Date().toISOString();
 			const newExpenses = [...state.expense, expense].sort(sortByDate);
 			state.expense = newExpenses;
+			state.lastUpdate = newUpdate;
 		},
 		bulkAddExpense(state, action) {
 			const expenses = action.payload;
+			const lastUpdate = new Date().toISOString();
 			const newExpenses = [...state.expense]
 				.concat(expenses)
 				.sort(sortByDate);
-			return { expense: newExpenses, labels: state.labels };
+			return { expense: newExpenses, labels: state.labels, lastUpdate };
 		},
 		deleteExpense(state, action) {
 			const id = action.payload;
+			const newUpdate = new Date().toISOString();
 			const newExpenses = state.expense.filter(
 				(expense) => expense._id !== id
 			);
-			return { expense: newExpenses, labels: state.labels };
+			return {
+				expense: newExpenses,
+				labels: state.labels,
+				lastUpdate: newUpdate,
+			};
 		},
 		updateExpense(state, action) {
 			const newExpense = action.payload;
+			const newUpdate = new Date().toISOString();
+			state.lastUpdate = newUpdate;
 			state.expense = state.expense
 				.map((expense) =>
 					expense._id === newExpense._id ? newExpense : expense
@@ -36,7 +46,8 @@ const expenseSlice = createSlice({
 		},
 		replace(state, action) {
 			const { type, expenses, labels } = action.payload;
-			// console.log(type, expenses, labels);
+			const newUpdate = new Date().toISOString();
+			state.lastUpdate = newUpdate;
 			switch (type) {
 				case 'expenses':
 					state.expense = expenses.sort(sortByDate);

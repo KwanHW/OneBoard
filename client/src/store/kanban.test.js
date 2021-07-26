@@ -73,10 +73,6 @@ describe('REDUX: kanban slice', () => {
 		expect(reducer(undefined, {})).toEqual(initState);
 	});
 
-	// test('replace kanban', () => {
-
-	// })
-
 	test('clear kanban', () => {
 		// Empty State
 		expect(reducer(initState, kanbanActions.clear())).toEqual(initState);
@@ -87,12 +83,6 @@ describe('REDUX: kanban slice', () => {
 		);
 	});
 });
-
-// describe('REDUX: kanban slice - Board',() => {
-// 	test('add task to empty column',() => {
-
-// 	})
-// })
 
 describe('REDUX: kanban slice - Column', () => {
 	const newCol = {

@@ -17,25 +17,38 @@ OneBoard would consist of a dashboard with the supporting features:
 - [ant-design](https://github.com/ant-design/ant-design/) for UI components
 
 ## Features
-**Completed Features (as of 24 Jun 21)**
-- Login / Signup
+**Completed Features (as of 26 Jul 21)**
+- User
+  - Login/Signup
+  - Change Profile Name
+  - Change Password
+   
 - Kanban Board
   - (CORE) Create, Update and Deletion of Boards, Columns and Tasks
   - [Drag and Drop Support](https://github.com/atlassian/react-beautiful-dnd) for task and column reordering
   - Task labelling
   - Subtasking within Tasks
+  - Task Filtering
 
 - Notes
   - (CORE) Create, Update and Deletion of Notes 
   - Search for tasks by title, description or both
+  - Sort Notes alphabetically or last updated
 
-**Upcoming Features**
 - Calendar
+  - (CORE) Create, Update and Deletion of Events
+  - Setting events for countdown
+  
 - Expense Tracker
+  - (CORE) Create, Update and Deletion of Expenses
+  - Import expenses from CSV
+  - Expenses Labelling
+  - Expenses Filtering
+  - View summary of expenses
 
 ## Using OneBoard
 ### On the web
-Coming Soon!
+https://oneboard-sg.netlify.app/
 
 ### Running OneBoard locally
 1. Clone this repository and install the npm packages

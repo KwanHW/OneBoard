@@ -37,6 +37,7 @@ const options = {
 
 function ExpenseSummary() {
 	const labels = useSelector((state) => state.expense.labels).filter(hasId);
+	const lastUpdate = useSelector((state) => state.expense.lastUpdate);
 	const [cookies] = useCookies(['t']);
 	const { t: token } = cookies;
 	const [expensesToShow, setExpensesToShow] = useState([]);
@@ -54,9 +55,10 @@ function ExpenseSummary() {
 			setExpensesToShow(expenses);
 		}
 
+		if (lastUpdate === 0) return;
 		fetchExpenses();
 		return () => {};
-	}, [token, timePeriod, duration]);
+	}, [token, timePeriod, duration, lastUpdate]);
 
 	const convertToDataset = () => {
 		const data = {

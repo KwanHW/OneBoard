@@ -56,7 +56,7 @@ function Countdown() {
 
 	return (
 		<div>
-			{countdown.daysDiff > 0 && <h2>{countdown.daysDiff}</h2>}
+			{countdown.daysDiff >= 0 && <h2>{countdown.daysDiff}</h2>}
 			<p style={{ fontSize: '1.15em' }}>
 				{countdown.daysDiff >= 0
 					? `days to ${formatMessage} ${featuredEvent.title}`

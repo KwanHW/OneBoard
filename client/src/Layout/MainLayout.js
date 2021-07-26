@@ -81,7 +81,7 @@ function MainLayout(props) {
 								style: { margin: '4px 8px 8px 0' },
 							}}
 						>
-							<DropdownItem>
+							{/* <DropdownItem>
 								<a
 									href="https://bit.ly/oneboard-feedback"
 									rel="noreferrer"
@@ -94,7 +94,7 @@ function MainLayout(props) {
 									<MdFeedback />
 									Feedback
 								</a>
-							</DropdownItem>
+							</DropdownItem> */}
 							<DropdownItem>
 								<a
 									href={telegramURL}

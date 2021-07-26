@@ -1,7 +1,6 @@
-import { eventActions } from './event';
 import reducer, { expenseActions } from './expense';
 
-const initialState = { expense: [], labels: [] };
+const initialState = { expense: [], labels: [], lastUpdate: 0 };
 
 const exp = {
 	_id: 'exp1',
@@ -40,14 +39,25 @@ const labels = [
 ];
 
 describe('REDUX: expense slice', () => {
+	beforeEach(() => {
+		jest.spyOn(Date.prototype, 'toISOString').mockReturnValue(
+			'2021-07-01T00:00:00.000Z'
+		);
+	});
+
 	test('initalise state slice', () => {
-		expect(reducer(undefined, {})).toEqual({ expense: [], labels: [] });
+		expect(reducer(undefined, {})).toEqual({
+			expense: [],
+			labels: [],
+			lastUpdate: '',
+		});
 	});
 
 	test('add expense to empty expense array', () => {
 		expect(reducer(initialState, expenseActions.addExpense(exp))).toEqual({
 			expense: [exp],
 			labels: [],
+			lastUpdate: '2021-07-01T00:00:00.000Z',
 		});
 	});
 
@@ -57,7 +67,7 @@ describe('REDUX: expense slice', () => {
 			_id: 'exp2',
 			name: 'Bare min expense',
 			description: '',
-			date: new Date('2021-07-13').toISOString(),
+			date: '2021-07-13T00:00:00.000Z',
 			amount: 130,
 			label: [],
 		};
@@ -70,6 +80,7 @@ describe('REDUX: expense slice', () => {
 		).toEqual({
 			expense: [exp, newExp],
 			labels: [],
+			lastUpdate: '2021-07-01T00:00:00.000Z',
 		});
 
 		// newExp comes earlier than exp
@@ -82,6 +93,7 @@ describe('REDUX: expense slice', () => {
 		).toEqual({
 			expense: [newExp, exp],
 			labels: [],
+			lastUpdate: '2021-07-01T00:00:00.000Z',
 		});
 	});
 
@@ -91,7 +103,7 @@ describe('REDUX: expense slice', () => {
 				{ expense: [exp], labels: [] },
 				expenseActions.deleteExpense(exp._id)
 			)
-		).toEqual(initialState);
+		).toEqual({ ...initialState, lastUpdate: '2021-07-01T00:00:00.000Z' });
 	});
 
 	test('update expense', () => {
@@ -112,6 +124,7 @@ describe('REDUX: expense slice', () => {
 		).toEqual({
 			expense: [newExp],
 			labels: [],
+			lastUpdate: '2021-07-01T00:00:00.000Z',
 		});
 	});
 
@@ -142,6 +155,7 @@ describe('REDUX: expense slice', () => {
 		).toEqual({
 			expense: [exp2, newExp],
 			labels: [],
+			lastUpdate: '2021-07-01T00:00:00.000Z',
 		});
 
 		newExp = { ...newExp, date: new Date('2021-07-01').toISOString() };
@@ -153,6 +167,7 @@ describe('REDUX: expense slice', () => {
 		).toEqual({
 			expense: [newExp, exp2],
 			labels: [],
+			lastUpdate: '2021-07-01T00:00:00.000Z',
 		});
 	});
 
@@ -175,7 +190,11 @@ describe('REDUX: expense slice', () => {
 					expenses: [exp2, exp],
 				})
 			)
-		).toEqual({ expense: [exp, exp2], labels: [] });
+		).toEqual({
+			expense: [exp, exp2],
+			labels: [],
+			lastUpdate: '2021-07-01T00:00:00.000Z',
+		});
 
 		// Replace existing expense array
 		expect(
@@ -189,6 +208,7 @@ describe('REDUX: expense slice', () => {
 		).toEqual({
 			expense: [exp, exp2],
 			labels: [],
+			lastUpdate: '2021-07-01T00:00:00.000Z',
 		});
 	});
 
@@ -228,7 +248,11 @@ describe('REDUX: expense slice', () => {
 				{ expense: [], labels },
 				expenseActions.replace({ type: 'labels', labels: newLabels })
 			)
-		).toEqual({ expense: [], labels: newLabels });
+		).toEqual({
+			expense: [],
+			labels: newLabels,
+			lastUpdate: '2021-07-01T00:00:00.000Z',
+		});
 	});
 
 	test('invalid replace', () => {
@@ -279,12 +303,12 @@ describe('REDUX: expense slice', () => {
 					expense: [exp, exp2],
 				})
 			)
-		).toEqual(prevState);
+		).toEqual({ ...prevState, lastUpdate: '2021-07-01T00:00:00.000Z' });
 	});
 
 	test('clears non-empty slice', () => {
 		expect(
 			reducer({ expense: [exp], labels: [] }, expenseActions.clear())
-		).toEqual({ expense: [], labels: [] });
+		).toEqual({ expense: [], labels: [], lastUpdate: '' });
 	});
 });

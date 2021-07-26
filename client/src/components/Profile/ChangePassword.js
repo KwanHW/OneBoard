@@ -115,10 +115,13 @@ function ChangePassword(props) {
 						onChange={newPWOnChange}
 						value={newPassword}
 						invalid={newPWHasError}
+						valid={!newPWHasError}
 						data-testid="newPW"
 					/>
 					<FormFeedback invalid>
-						Please ensure field is not empty.
+						{newPassword === currentPassword
+							? 'Please ensure that the new password is different.'
+							: 'Please ensure the new password is at least 8 characters long and contains a digit.'}
 					</FormFeedback>
 				</FormGroup>
 
@@ -131,11 +134,13 @@ function ChangePassword(props) {
 						onChange={cfmPWOnChange}
 						value={cfmPassword}
 						invalid={cfmPWHasError}
+						valid={!cfmPWHasError}
 						data-testid="cfmPW"
 					/>
 					<FormFeedback invalid>
-						Please ensure field is not empty and matches with New
-						Password.
+						{cfmPassword.length === 0
+							? 'Please ensure field is not empty.'
+							: 'Password does not match.'}
 					</FormFeedback>
 				</FormGroup>
 				<div className="mt-4">
