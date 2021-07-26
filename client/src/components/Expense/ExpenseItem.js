@@ -64,7 +64,7 @@ function ExpenseItem(props) {
 			return;
 		}
 
-		const amountFloat = parseFloat(amount);
+		const amountFloat = parseFloat(amount).toFixed(2);
 
 		let isChanged = false;
 		if (labelSelect.length !== beforeChange.label.length) isChanged = true;
@@ -85,7 +85,7 @@ function ExpenseItem(props) {
 			moment(date, 'YYYY-MM-DD').isSame(beforeChange.date, 'day') &&
 			!isChanged
 		) {
-			console.log('The same');
+			// console.log('The same');
 			setIsEdit(false);
 			return;
 		}
@@ -96,11 +96,11 @@ function ExpenseItem(props) {
 			date: dateToString,
 			description,
 			label: labelSelect,
-			amount: parseFloat(amount),
+			amount: `$${amountFloat}`,
 		};
 
 		dispatch(updateExpense(token, updatedExpense));
-		setBeforeChange(updatedExpense);
+		setBeforeChange({ ...updatedExpense, amount: parseFloat(amountFloat) });
 		setIsEdit(false);
 	};
 

@@ -43,8 +43,12 @@ export const deleteNote = (token, id) => {
 export const updateNote = (token, id, dataReq) => {
 	return async (dispatch) => {
 		try {
-			putRequest(token, determineURL(URL_HEADER, id), dataReq);
-			dispatch(noteActions.updateNote(dataReq));
+			const note = await putRequest(
+				token,
+				determineURL(URL_HEADER, id),
+				dataReq
+			);
+			dispatch(noteActions.updateNote(createNote(note)));
 		} catch (error) {}
 	};
 };

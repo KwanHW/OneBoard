@@ -8,7 +8,7 @@ import { getExpenses } from '../../../store/expense-action';
 import { hasId } from '../../../lib/validators';
 
 const TYPE_COLOR = {
-	primary: '0d6efd',
+	primary: '#0d6efd',
 	dark: '#212529',
 	success: '#198754',
 	info: '#0dcaf0',

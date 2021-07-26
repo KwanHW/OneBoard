@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
 import { FaSortAlphaDown, FaSortAlphaDownAlt } from 'react-icons/fa';
-import { BiTime } from 'react-icons/bi';
+import { BiReset, BiTime } from 'react-icons/bi';
 import { SORT_MODE } from '../../lib/note';
 
 function SortNote(props) {
@@ -41,6 +41,7 @@ function SortNote(props) {
 					changeSort('');
 				}}
 			>
+				<BiReset />
 				Reset
 			</Button>
 		</ButtonGroup>
