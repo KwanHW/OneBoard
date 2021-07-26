@@ -57,7 +57,7 @@ function AddExpense(props) {
 		onChange: amountOnChange,
 		onBlur: amountOnBlur,
 		reset: amountReset,
-	} = useInput((value) => isNumeric(value) && +value >= 1, 0.0);
+	} = useInput((value) => isNumeric(value) && +value >= 0.01, 0.0);
 	const [label, setLabels] = useState([]);
 
 	const addExpenseHandler = () => {
@@ -113,7 +113,7 @@ function AddExpense(props) {
 						<Input
 							id="amount"
 							type="number"
-							min="1.00"
+							min="0.01"
 							value={amount}
 							onChange={amountOnChange}
 							onBlur={amountOnBlur}

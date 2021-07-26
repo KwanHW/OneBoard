@@ -135,8 +135,13 @@ export const updatePassword = (token, userPW) => {
 		try {
 			// const response = await updateData();
 			await postRequest(token, '/api/user/pass', userPW);
-			return '';
 		} catch (error) {
+			if (
+				error.message ===
+				'JSON.parse: unexpected end of data at line 1 column 1 of the JSON data'
+			) {
+				return '';
+			}
 			return 'Wrong password.';
 		}
 	};

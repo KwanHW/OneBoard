@@ -64,6 +64,7 @@ function ChangePassword(props) {
 			newPassword: cfmPassword,
 		};
 		const response = await dispatch(updatePassword(token, newPW));
+		// console.log(response);
 		if (response) {
 			setIsSuccess(false);
 			changeMessage(response);
